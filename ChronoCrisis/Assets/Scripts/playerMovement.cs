@@ -1,16 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static Cinemachine.CinemachineImpulseManager.ImpulseEvent;
 
 public class playerMovement : MonoBehaviour
 {
-    public float hitPoints = 100f;
+    public float HitPoint = 100f;
     public float movementSpeed = 5f;
     public float RunMulti = 2f;
     [SerializeField] private float attackRange = 5f;
     [SerializeField] private float damageATK = 5f;
 
-    private bool isHealing = false;
+    //private bool isHealing = false;
+    //private bool isDead = false;
 
     private Rigidbody2D rb;
 
@@ -98,6 +100,19 @@ public class playerMovement : MonoBehaviour
     void recievedPowerUp(){
         
     }
+
+    public void recievedDamage(float damage)
+    {
+        HitPoint -= damage;
+        
+        if(HitPoint <= 0)
+        {
+            //isDead = true;
+            gameObject.SetActive(false);
+            Destroy(gameObject);
+        }
+    }
+
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

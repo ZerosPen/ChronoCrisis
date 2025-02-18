@@ -9,17 +9,23 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float MovementSpeed = 5f;
     [SerializeField] private float MovementChase = 2.5f;
     [SerializeField] private float chaseRange = 5f;
+    [SerializeField] private float attackRange = 5f;
     [SerializeField] private float stopDuration = 3f;
+    [SerializeField] private float attackDamage = 10f;
+    [SerializeField] private float AttackCoolDown = 5f;
     public float currentHp;
 
     [SerializeField] private Transform player;
     private Rigidbody2D rb;
     private bool isChasing = false;
     private bool isStopped = false;
+    [SerializeField]private bool isAttacking = false;
 
     [SerializeField] private Transform waypointsA;
     [SerializeField] private Transform waypointsB;
     private Vector2 targetWayPoint;
+
+    [SerializeField] private LayerMask playerLayer;
 
     void Start()
     {
@@ -36,14 +42,27 @@ public class EnemyController : MonoBehaviour
     {
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        if (distanceToPlayer <= chaseRange && isStopped != true)
+        if (distanceToPlayer <= attackRange)
+        {
+            isChasing = false;  // Stop chasing when attacking
+            isAttacking = true;
+            AttackCoolDown -= Time.deltaTime;
+            if(AttackCoolDown <= 0 && isAttacking)
+            {
+                AttackTarget();
+            }
+        }
+        else if (distanceToPlayer <= chaseRange && !isAttacking && !isStopped)
         {
             isChasing = true;
+            isAttacking = false;  // Ensure it is not attacking when chasing
             ChaseTarget();
         }
+
         else
         {
             isChasing = false;
+            isAttacking = false;
             if (!isStopped)
             {
                 MoveTowardTarget();
@@ -85,6 +104,33 @@ public class EnemyController : MonoBehaviour
         }
     }
 
+    private void AttackTarget()
+    {
+        if (isAttacking == true)
+        {
+            Debug.Log("Enemy is attacking!");
+            Collider2D[] hitPlayer = Physics2D.OverlapCircleAll(transform.position, attackRange, playerLayer);
+            Debug.Log($"Player detected: {hitPlayer.Length}");
+
+            foreach (Collider2D hitColliderPlayer in hitPlayer)
+            {
+                AttackCoolDown -= Time.deltaTime;
+                if( AttackCoolDown <= 0 && isAttacking == true)
+                {
+                    if (hitColliderPlayer.gameObject.CompareTag("Player"))
+                    {
+                        playerMovement player = hitColliderPlayer.GetComponent<playerMovement>();
+                        player.recievedDamage(attackDamage);
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.Log("Enemy is not attacking!");
+        }
+    }
+
     private void ResumePatrol()
     {
         SetNewTargetPos();
@@ -94,7 +140,6 @@ public class EnemyController : MonoBehaviour
     public void EnemyTakeDamage(float damage)
     {
         currentHp -= damage;
-        Debug.Log($"Enemy {gameObject.name} took {damage} damage! Remaining HP: {currentHp}");
         if (currentHp <= 0)
         {
             EnemyDead();
@@ -121,5 +166,8 @@ public class EnemyController : MonoBehaviour
     {
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, chaseRange);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
     }
 }
