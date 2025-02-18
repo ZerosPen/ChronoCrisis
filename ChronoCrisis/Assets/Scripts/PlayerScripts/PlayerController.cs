@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Cinemachine.CinemachineImpulseManager.ImpulseEvent;
 
-public class playerMovement : MonoBehaviour
+public class PlayerController : MonoBehaviour
 {
     [Header("Status")]
     public float HitPoint = 100f;
@@ -15,15 +15,31 @@ public class playerMovement : MonoBehaviour
     [SerializeField] private float coolDownDash = 1f;
     private Vector2 directionDash;
 
-    [Header("conditon & requimen")]
+    [Header("conditon&requimen")]
     //private bool isHealing = false;
     //private bool isDead = false;
     private bool isDashing = false;
     private bool canDash = true;
-
+    public bool ActiveSkill = false;
     private Rigidbody2D rb;
-
     [SerializeField] private LayerMask enemyLayer;
+    [SerializeField] private GameObject aoeIndicatorPrefab; // Drag an AoE preview prefab
+    private GameObject aoeIndicatorInstance;
+
+
+    [Header("KeyBlind")]
+    public KeyCode moveLeft = KeyCode.A;
+    public KeyCode moveRight = KeyCode.D;
+    public KeyCode moveUp = KeyCode.W;
+    public KeyCode moveDown = KeyCode.S;
+    public KeyCode Skill1 = KeyCode.Q;
+    public KeyCode Skill2 = KeyCode.E;
+    public KeyCode Skill3 = KeyCode.R;
+    public KeyCode Skill4 = KeyCode.T;
+    public KeyCode item1 = KeyCode.Alpha1;
+    public KeyCode item2 = KeyCode.Alpha2;
+    public KeyCode item3 = KeyCode.Alpha3;
+
 
     void Start()
     {
@@ -39,15 +55,16 @@ public class playerMovement : MonoBehaviour
     {
         movement();
         attack();
+        skillCastQ();
     }
 
     void movement()
     {
-        float verticalInput = Input.GetKey(KeyCode.W) ? 1f :
-                              Input.GetKey(KeyCode.S) ? -1f : 0f;
+        float verticalInput = Input.GetKey(moveUp) ? 1f :
+                              Input.GetKey(moveDown) ? -1f : 0f;
 
-        float horizontalInput = Input.GetKey(KeyCode.D) ? 1f :
-                                Input.GetKey(KeyCode.A) ? -1f : 0f;
+        float horizontalInput = Input.GetKey(moveRight) ? 1f :
+                                Input.GetKey(moveLeft) ? -1f : 0f;
 
         Vector2 directionMove = new Vector2(horizontalInput, verticalInput).normalized;
 
@@ -80,7 +97,7 @@ public class playerMovement : MonoBehaviour
 
     private void attack()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && ActiveSkill != true)
         {
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attackRange, enemyLayer);
             Debug.Log($"Enemies detected: {hitEnemies.Length}");
@@ -99,21 +116,47 @@ public class playerMovement : MonoBehaviour
 
 
     //skill casting
-    void skillCastQ(){
-
+    #region (skill casting)
+    void skillCastQ()
+    {
+        if (Input.GetKeyDown(Skill1))
+        {
+            ActiveSkill = true;
+            
+            StartCoroutine(CoolDownChangeSkill());
+        }
     }
 
-    void skillCastE(){
-
+    void skillCastE()
+    {
+        if (Input.GetKeyDown(Skill2))
+        {
+            ActiveSkill = true;
+            
+            StartCoroutine(CoolDownChangeSkill());
+        }
     }
 
-    void skillCastR(){
-
+    void skillCastR()
+    {
+        if (Input.GetKeyDown(Skill3))
+        {
+            ActiveSkill = true;
+            
+            StartCoroutine(CoolDownChangeSkill());
+        }
     }
 
-    void skillCastT(){
-
+    void skillCastT()
+    {
+        if (Input.GetKeyDown(Skill4))
+        {
+            ActiveSkill = true;
+            
+            StartCoroutine(CoolDownChangeSkill());
+        }
     }
+    #endregion
 
     //interact (F)
     void interact(){
@@ -130,6 +173,20 @@ public class playerMovement : MonoBehaviour
         yield return new WaitForSeconds(coolDownDash);
         isDashing = false;
         canDash = true;
+    }
+
+    private IEnumerator CoolDownChangeSkill()
+    {
+        yield return new WaitForSeconds(1f);
+        ActiveSkill = false;
+    }
+
+    void StartAoE()
+    {
+        if (aoeIndicatorInstance == null && aoeIndicatorPrefab != null)
+        {
+            aoeIndicatorInstance = Instantiate(aoeIndicatorPrefab);
+        }
     }
     public void recievedDamage(float damage)
     {

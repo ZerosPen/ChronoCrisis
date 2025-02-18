@@ -119,7 +119,7 @@ public class EnemyController : MonoBehaviour
                 {
                     if (hitColliderPlayer.gameObject.CompareTag("Player"))
                     {
-                        playerMovement player = hitColliderPlayer.GetComponent<playerMovement>();
+                        PlayerController player = hitColliderPlayer.GetComponent<PlayerController>();
                         player.recievedDamage(attackDamage);
                     }
                 }
