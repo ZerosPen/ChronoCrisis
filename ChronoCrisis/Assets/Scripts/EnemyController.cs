@@ -10,6 +10,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float MovementChase = 2.5f;
     [SerializeField] private float chaseRange = 5f;
     [SerializeField] private float stopDuration = 3f;
+    public float currentHp;
 
     [SerializeField] private Transform player;
     private Rigidbody2D rb;
@@ -27,6 +28,7 @@ public class EnemyController : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
         }
+        currentHp = HitPoint;
         SetNewTargetPos();
     }
 
@@ -34,23 +36,14 @@ public class EnemyController : MonoBehaviour
     {
         float distanceToPlayer = Vector2.Distance(transform.position, player.position);
 
-        if (distanceToPlayer <= chaseRange && !isStopped)
+        if (distanceToPlayer <= chaseRange && isStopped != true)
         {
-            if (!isChasing)
-            {
-                isChasing = true;
-                Debug.Log("Enemy is now chasing the player!");
-            }
+            isChasing = true;
             ChaseTarget();
         }
         else
         {
-            if (isChasing)
-            {
-                isChasing = false;
-                Debug.Log("Enemy stopped chasing.");
-            }
-
+            isChasing = false;
             if (!isStopped)
             {
                 MoveTowardTarget();
@@ -100,14 +93,14 @@ public class EnemyController : MonoBehaviour
 
     public void EnemyTakeDamage(float damage)
     {
-        HitPoint -= damage;
-        Debug.Log($"HP enemy {HitPoint}");
-
-        if (HitPoint <= 0)
+        currentHp -= damage;
+        Debug.Log($"Enemy {gameObject.name} took {damage} damage! Remaining HP: {currentHp}");
+        if (currentHp <= 0)
         {
             EnemyDead();
         }
     }
+
 
     private void EnemyDead()
     {

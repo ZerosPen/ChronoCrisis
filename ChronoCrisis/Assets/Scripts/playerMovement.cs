@@ -54,16 +54,17 @@ public class playerMovement : MonoBehaviour
 
     private void attack()
     {
-        if (Input.GetMouseButtonDown(0)  || Input.GetKeyDown(KeyCode.J))
+        if (Input.GetMouseButtonDown(0))
         {
-            Debug.Log("Try attacking");
             Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attackRange, enemyLayer);
+            Debug.Log($"Enemies detected: {hitEnemies.Length}");
 
-            foreach (Collider2D enemyCollider in hitEnemies)
+            foreach (Collider2D enemys in hitEnemies)
             {
-                EnemyController enemy = enemyCollider.GetComponent<EnemyController>();
-                if (enemy != null)
+
+                if (enemys.gameObject.CompareTag("Enemy"))
                 {
+                    EnemyController enemy = enemys.GetComponent<EnemyController>();
                     enemy.EnemyTakeDamage(damageATK);
                 }
             }
