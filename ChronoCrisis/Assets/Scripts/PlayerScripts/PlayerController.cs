@@ -58,6 +58,11 @@ public class PlayerController : MonoBehaviour
         skillCastQ();
     }
 
+
+    private int dashCount = 0;
+    public int maxDashes = 2; // Allows up to double dash
+    public float dashDuration = 0.2f; // Duration of each dash
+
     void movement()
     {
         float verticalInput = Input.GetKey(moveUp) ? 1f :
@@ -76,16 +81,28 @@ public class PlayerController : MonoBehaviour
         {
             rb.velocity = directionMove * movementSpeed;
         }
-        if (Input.GetMouseButtonDown(1) && canDash)
+        
+        //edit : enabled double dash
+        if (Input.GetMouseButtonDown(1) && canDash && dashCount < maxDashes)
         {
             isDashing = true;
-            canDash = false;
+            dashCount++;
             directionDash =  new Vector2(horizontalInput, verticalInput);
             if(directionDash == Vector2.zero)
             {
                 directionDash = new Vector2(transform.localScale.x, transform.localScale.y);
             }
-            StartCoroutine(CoolDownDash());
+            StartCoroutine(DashDuration());
+
+            //double dash mechanic
+            if(dashCount == 1){
+                StartCoroutine(CoolDownDash());
+            }
+            if(dashCount == maxDashes){
+                StartCoroutine(CoolDownDash());
+                canDash = false;
+            }
+            
         }
 
         if(isDashing)
@@ -93,6 +110,14 @@ public class PlayerController : MonoBehaviour
             rb.velocity = directionDash.normalized * powerDash;
             return;
         }
+    }
+
+    //dash duration
+    IEnumerator DashDuration()
+    {
+        yield return new WaitForSeconds(dashDuration); // Set your desired dash duration
+        isDashing = false;
+        rb.velocity = Vector2.zero; // Stop movement after dashing
     }
 
     private void attack()
@@ -171,6 +196,7 @@ public class PlayerController : MonoBehaviour
     private IEnumerator CoolDownDash()
     {
         yield return new WaitForSeconds(coolDownDash);
+        dashCount = 0;
         isDashing = false;
         canDash = true;
     }
