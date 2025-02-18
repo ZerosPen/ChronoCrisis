@@ -5,14 +5,21 @@ using static Cinemachine.CinemachineImpulseManager.ImpulseEvent;
 
 public class playerMovement : MonoBehaviour
 {
+    [Header("Status")]
     public float HitPoint = 100f;
-    public float movementSpeed = 5f;
-    public float RunMulti = 2f;
+    [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private float RunMulti = 2f;
     [SerializeField] private float attackRange = 5f;
     [SerializeField] private float damageATK = 5f;
+    [SerializeField] private float powerDash = 15f;
+    [SerializeField] private float coolDownDash = 1f;
+    private Vector2 directionDash;
 
+    [Header("conditon & requimen")]
     //private bool isHealing = false;
     //private bool isDead = false;
+    private bool isDashing = false;
+    private bool canDash = true;
 
     private Rigidbody2D rb;
 
@@ -51,6 +58,23 @@ public class playerMovement : MonoBehaviour
         else
         {
             rb.velocity = directionMove * movementSpeed;
+        }
+        if (Input.GetMouseButtonDown(1) && canDash)
+        {
+            isDashing = true;
+            canDash = false;
+            directionDash =  new Vector2(horizontalInput, verticalInput);
+            if(directionDash == Vector2.zero)
+            {
+                directionDash = new Vector2(transform.localScale.x, transform.localScale.y);
+            }
+            StartCoroutine(CoolDownDash());
+        }
+
+        if(isDashing)
+        {
+            rb.velocity = directionDash.normalized * powerDash;
+            return;
         }
     }
 
@@ -101,6 +125,12 @@ public class playerMovement : MonoBehaviour
         
     }
 
+    private IEnumerator CoolDownDash()
+    {
+        yield return new WaitForSeconds(coolDownDash);
+        isDashing = false;
+        canDash = true;
+    }
     public void recievedDamage(float damage)
     {
         HitPoint -= damage;

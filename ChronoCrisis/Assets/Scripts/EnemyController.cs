@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+    [Header(("Status"))]
     public float HitPoint = 100;
     [SerializeField] private float MovementSpeed = 5f;
     [SerializeField] private float MovementChase = 2.5f;
@@ -15,16 +16,15 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float AttackCoolDown = 5f;
     public float currentHp;
 
+    [Header("conditon & requimen")]
     [SerializeField] private Transform player;
     private Rigidbody2D rb;
     private bool isChasing = false;
     private bool isStopped = false;
-    [SerializeField]private bool isAttacking = false;
-
+    private bool isAttacking = false;
     [SerializeField] private Transform waypointsA;
     [SerializeField] private Transform waypointsB;
     private Vector2 targetWayPoint;
-
     [SerializeField] private LayerMask playerLayer;
 
     void Start()
