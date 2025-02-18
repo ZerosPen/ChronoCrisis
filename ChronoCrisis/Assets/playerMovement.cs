@@ -28,6 +28,11 @@ public class playerMovement : MonoBehaviour
 
     }
 
+    //dash dodge
+    void dash(){
+        
+    }
+
     //skill casting
     void skillCastQ(){
 
@@ -52,7 +57,7 @@ public class playerMovement : MonoBehaviour
 
     //recieved item
     void recievedPowerUp(){
-        
+
     }
 
     // Update is called once per frame
