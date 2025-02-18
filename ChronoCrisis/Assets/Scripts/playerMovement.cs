@@ -7,39 +7,40 @@ public class playerMovement : MonoBehaviour
     public float hitPoints = 100f;
     public float movementSpeed = 5f;
     public float RunMulti = 2f;
+    [SerializeField] private float attackRange = 5f;
+    [SerializeField] private float damageATK = 5f;
 
-    private bool isRunning = false;
-    private bool isAttacking = false;
     private bool isHealing = false;
 
-    private Rigidbody rb;
+    private Rigidbody2D rb;
 
-    // Start is called before the first frame update
+    [SerializeField] private LayerMask enemyLayer;
+
     void Start()
     {
-        rb = GetComponent<Rigidbody>();
-        if(rb == null)
+        rb = GetComponent<Rigidbody2D>();
+
+        if (rb == null)
         {
-            Debug.LogError("The RigidBody2D is missing!");
+            Debug.LogError("The Rigidbody2D is missing!");
         }
     }
 
-    // Update is called once per frame
     void Update()
     {
         movement();
+        attack();
     }
 
-    // Player movement
     void movement()
     {
-        float verticalInput =   Input.GetKey(KeyCode.W) ? 1f : 
-                                Input.GetKey(KeyCode.S) ? -1f : 0f;
+        float verticalInput = Input.GetKey(KeyCode.W) ? 1f :
+                              Input.GetKey(KeyCode.S) ? -1f : 0f;
 
         float horizontalInput = Input.GetKey(KeyCode.D) ? 1f :
                                 Input.GetKey(KeyCode.A) ? -1f : 0f;
 
-        Vector2 directionMove =  new Vector2(horizontalInput, verticalInput);
+        Vector2 directionMove = new Vector2(horizontalInput, verticalInput).normalized;
 
         if (Input.GetKey(KeyCode.LeftShift))
         {
@@ -51,10 +52,24 @@ public class playerMovement : MonoBehaviour
         }
     }
 
-    //basic attack
-    void attack(){
+    private void attack()
+    {
+        if (Input.GetMouseButtonDown(0)  || Input.GetKeyDown(KeyCode.J))
+        {
+            Debug.Log("Try attacking");
+            Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(transform.position, attackRange, enemyLayer);
 
+            foreach (Collider2D enemyCollider in hitEnemies)
+            {
+                EnemyController enemy = enemyCollider.GetComponent<EnemyController>();
+                if (enemy != null)
+                {
+                    enemy.EnemyTakeDamage(damageATK);
+                }
+            }
+        }
     }
+
 
     //skill casting
     void skillCastQ(){
@@ -82,4 +97,10 @@ public class playerMovement : MonoBehaviour
     void recievedPowerUp(){
         
     }
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+    }
 }
+
