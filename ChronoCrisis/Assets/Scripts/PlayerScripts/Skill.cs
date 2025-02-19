@@ -8,6 +8,8 @@ public abstract class Skill : ScriptableObject
     public float coolDown;
     public float radiusAoE;
     public float damageDeal;
+    public float manaUse;
+    public string damageType;
 
     public virtual void useSkill(GameObject player) { }
 }

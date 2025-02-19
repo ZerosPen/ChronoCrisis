@@ -93,7 +93,7 @@ public class SkillManager : MonoBehaviour
             StartUseSkill(activeSkill.typeSkill);
             return;
         }
-        else if (isAiming && Input.GetMouseButtonUp(0) && playerController.ActiveSkill && isCasting)
+        else if (isAiming && Input.GetMouseButtonUp(0) && playerController.ActiveSkill && isCasting && playerController.currManaPoint >= skillSlots[indexActiveSkill.Value].manaUse)
         {
             Skill activeSkill = skillSlots[indexActiveSkill.Value];
 
