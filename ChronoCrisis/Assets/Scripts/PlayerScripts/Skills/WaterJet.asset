@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ff4536982c14048aec8cb29750940e, type: 3}
   m_Name: WaterJet
   m_EditorClassIdentifier: 
-  skillName: 
-  typeSkill: 
-  coolDown: 0
-  radiusAoE: 0
-  damageDeal: 0
-  manaUse: 0
-  damageType: 
+  skillName: WaterJet
+  typeSkill: AoE
+  coolDown: 20
+  radiusAoE: 15
+  damageDeal: 5
+  manaUse: 5
+  damageType: Magic
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64

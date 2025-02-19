@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09ff4536982c14048aec8cb29750940e, type: 3}
   m_Name: Shock
   m_EditorClassIdentifier: 
-  skillName: lightning bolt
+  skillName: shock
   typeSkill: AoE
-  coolDown: 0
+  coolDown: 5
   radiusAoE: 5
-  damageDeal: 0
-  manaUse: 0
-  damageType: 
+  damageDeal: 10
+  manaUse: 5
+  damageType: Magic
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64

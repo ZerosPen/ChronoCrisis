@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: FireBall
   m_EditorClassIdentifier: 
   skillName: Fireball
-  typeSkill: Singel
+  typeSkill: AoE
   coolDown: 5
-  radiusAoE: 2
+  radiusAoE: 5
   damageDeal: 10
+  manaUse: 5
+  damageType: Magic
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64

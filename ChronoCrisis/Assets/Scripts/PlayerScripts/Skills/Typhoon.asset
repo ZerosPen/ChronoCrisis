@@ -16,4 +16,9 @@ MonoBehaviour:
   typeSkill: AoE
   coolDown: 10
   radiusAoE: 15
-  damageDeal: 25
+  damageDeal: 30
+  manaUse: 25
+  damageType: Magic
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 64
