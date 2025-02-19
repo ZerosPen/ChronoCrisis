@@ -20,11 +20,10 @@ public class PlayerController : MonoBehaviour
     //private bool isDead = false;
     private bool isDashing = false;
     private bool canDash = true;
-    public bool ActiveSkill = false;
+    public bool ActiveSkill = true;
     private Rigidbody2D rb;
     [SerializeField] private LayerMask enemyLayer;
-    [SerializeField] private GameObject aoeIndicatorPrefab; // Drag an AoE preview prefab
-    private GameObject aoeIndicatorInstance;
+    private SkillManager skillManager;
 
 
     [Header("KeyBlind")]
@@ -44,6 +43,7 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        skillManager = GetComponent<SkillManager>();
 
         if (rb == null)
         {
@@ -147,38 +147,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(Skill1))
         {
             ActiveSkill = true;
-            
-            StartCoroutine(CoolDownChangeSkill());
-        }
-    }
-
-    void skillCastE()
-    {
-        if (Input.GetKeyDown(Skill2))
-        {
-            ActiveSkill = true;
-            
-            StartCoroutine(CoolDownChangeSkill());
-        }
-    }
-
-    void skillCastR()
-    {
-        if (Input.GetKeyDown(Skill3))
-        {
-            ActiveSkill = true;
-            
-            StartCoroutine(CoolDownChangeSkill());
-        }
-    }
-
-    void skillCastT()
-    {
-        if (Input.GetKeyDown(Skill4))
-        {
-            ActiveSkill = true;
-            
-            StartCoroutine(CoolDownChangeSkill());
+            skillManager.HandleSkillSwitching(0);
         }
     }
     #endregion
@@ -201,19 +170,12 @@ public class PlayerController : MonoBehaviour
         canDash = true;
     }
 
-    private IEnumerator CoolDownChangeSkill()
+    public IEnumerator CoolDownChangeSkill()
     {
         yield return new WaitForSeconds(1f);
         ActiveSkill = false;
     }
 
-    void StartAoE()
-    {
-        if (aoeIndicatorInstance == null && aoeIndicatorPrefab != null)
-        {
-            aoeIndicatorInstance = Instantiate(aoeIndicatorPrefab);
-        }
-    }
     public void recievedDamage(float damage)
     {
         HitPoint -= damage;
