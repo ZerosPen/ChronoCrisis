@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,20 +8,23 @@ public class SkillManager : MonoBehaviour
     public Skill[] skillSlots = new Skill[4];
     private PlayerController playerController;
     private int? indexActiveSkill = null;
-    [SerializeField]  private bool isAiming = false;
+    [SerializeField] private bool isAiming = false;
 
     private Dictionary<Skill, float> skillCooldowns = new Dictionary<Skill, float>();
 
     [SerializeField] private GameObject aoeIndicatorPrefab;
-    [SerializeField] private GameObject singelTargetIndicatorPrefab;
+    [SerializeField] private GameObject singleTargetIndicatorPrefab;
     [SerializeField] private Transform skillIndicatorContainer;
+    [SerializeField] private Transform weaponTransform; // Assign this in the Inspector
+
+    private Quaternion originalWeaponRotation;
     private GameObject aoeIndicatorInstance;
-    private GameObject singelTargetInstance;
+    private GameObject singleTargetInstance;
     private PointRatatioAction pra;
 
     private void Start()
     {
-        playerController = FindObjectOfType<PlayerController>(); // Finds the player object
+        playerController = FindObjectOfType<PlayerController>();
         pra = FindObjectOfType<PointRatatioAction>();
 
         // Initialize cooldown tracking
@@ -32,22 +35,26 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    private void Update()
+    void Update()
     {
         HandleSkillUse();
         UpdateCooldowns();
-        if (indexActiveSkill.HasValue)
-        {
-            indexActiveSkill = indexActiveSkill.Value;
-        }
-        if (isAiming && aoeIndicatorInstance != null)
-        {
-            aoeIndicatorInstance.transform.position = GetMouseWorldPosition();
-        }
 
-        if (isAiming && singelTargetInstance != null)
+        if (isAiming && pra.isSkillActive && indexActiveSkill.HasValue)
         {
-            singelTargetInstance.transform.position = GetMouseWorldPosition();
+            Skill activeSkill = skillSlots[indexActiveSkill.Value];
+
+            if (activeSkill.typeSkill == "AoE" && aoeIndicatorInstance != null)
+            {
+                aoeIndicatorInstance.transform.position = pra.GetCursorPosition();
+            }
+            else if ((activeSkill.typeSkill == "SingelTarget" || activeSkill.typeSkill == "Singel") && singleTargetInstance != null)
+            {
+                Vector3 cursorPosition = pra.GetCursorPosition();
+                Vector3 direction = cursorPosition - weaponTransform.position;
+                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+                singleTargetInstance.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+            }
         }
     }
 
@@ -56,13 +63,13 @@ public class SkillManager : MonoBehaviour
         if (indexSkill >= 0 && indexSkill < skillSlots.Length && skillSlots[indexSkill] != null)
         {
             indexActiveSkill = indexSkill;
-            Debug.Log($"skill selected : {indexActiveSkill.HasValue}");
+            Debug.Log($"Skill selected: {indexActiveSkill.Value}");
         }
     }
 
     void HandleSkillUse()
     {
-        if(Input.GetMouseButtonDown(0) && indexActiveSkill.HasValue && playerController.ActiveSkill == true)
+        if (Input.GetMouseButtonDown(0) && indexActiveSkill.HasValue && playerController.ActiveSkill)
         {
             Skill activeSkill = skillSlots[indexActiveSkill.Value];
             if (skillCooldowns[activeSkill] > 0)
@@ -71,25 +78,27 @@ public class SkillManager : MonoBehaviour
                 return;
             }
 
-            Debug.Log("Aiming");
             isAiming = true;
-            startUseSkill(activeSkill.typeSkill);
+            StartUseSkill(activeSkill.typeSkill);
             return;
         }
-        else if (isAiming && Input.GetMouseButtonUp(0) && playerController.ActiveSkill == true)
+        else if (isAiming && Input.GetMouseButtonUp(0) && playerController.ActiveSkill)
         {
             Skill activeSkill = skillSlots[indexActiveSkill.Value];
 
             activeSkill.useSkill(playerController.gameObject);
-            skillCooldowns[activeSkill] = activeSkill.coolDown; // Start cooldown
+            skillCooldowns[activeSkill] = activeSkill.coolDown;
             playerController.ActiveSkill = false;
             StartCoroutine(playerController.CoolDownChangeSkill());
 
             isAiming = false;
             pra.isSkillActive = false;
             indexActiveSkill = null;
+
+            DestroyIndicators();
         }
     }
+
     void UpdateCooldowns()
     {
         List<Skill> keys = new List<Skill>(skillCooldowns.Keys);
@@ -102,47 +111,41 @@ public class SkillManager : MonoBehaviour
         }
     }
 
-    void startUseSkill(string type)
+    void StartUseSkill(string type)
     {
-        Debug.Log("startUseSkill called with type: " + type);
+        Debug.Log("StartUseSkill called with type: " + type);
 
-        if (type == "AoE" && aoeIndicatorInstance == null && aoeIndicatorPrefab != null && isAiming == true)
+        if (weaponTransform != null)
+        {
+            originalWeaponRotation = weaponTransform.rotation;
+        }
+
+        if (type == "AoE" && aoeIndicatorInstance == null && aoeIndicatorPrefab != null && isAiming)
         {
             pra.isSkillActive = true;
             aoeIndicatorInstance = Instantiate(aoeIndicatorPrefab, skillIndicatorContainer);
-            Debug.Log("AoE Prefab Instantiated");
             aoeIndicatorInstance.SetActive(true);
-            aoeIndicatorInstance.transform.position = GetMouseWorldPosition();
+            aoeIndicatorInstance.transform.position = pra.GetCursorPosition();
         }
-
-        if ((type == "SingelTarget" || type == "Singel") && singelTargetInstance == null && singelTargetIndicatorPrefab != null && isAiming == true)
+        else if ((type == "SingelTarget" || type == "Singel") && singleTargetInstance == null && singleTargetIndicatorPrefab != null && isAiming)
         {
-            singelTargetInstance = Instantiate(singelTargetIndicatorPrefab, skillIndicatorContainer);
-            Debug.Log("Single Target Prefab Instantiated");
-            singelTargetInstance.SetActive(true);
-            singelTargetInstance.transform.position = GetMouseWorldPosition();
-        }
-
-        // Prevent setting inactive if instances aren't created
-        if (!isAiming)
-        {
-            if (aoeIndicatorInstance != null) 
-            {
-                aoeIndicatorInstance.SetActive(false);
-                Destroy(aoeIndicatorInstance);
-            }
-            if (singelTargetInstance != null) { 
-                singelTargetInstance.SetActive(false); 
-                Destroy(singelTargetInstance);
-            }
+            singleTargetInstance = Instantiate(singleTargetIndicatorPrefab, skillIndicatorContainer);
+            singleTargetInstance.SetActive(true);
+            singleTargetInstance.transform.position = weaponTransform.position;
         }
     }
 
-
-    Vector3 GetMouseWorldPosition()
+    private void DestroyIndicators()
     {
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        return new Vector3(mousePosition.x, mousePosition.y, 0f); // Force Z to 0
+        if (aoeIndicatorInstance != null)
+        {
+            Destroy(aoeIndicatorInstance);
+            aoeIndicatorInstance = null;
+        }
+        if (singleTargetInstance != null)
+        {
+            Destroy(singleTargetInstance);
+            singleTargetInstance = null;
+        }
     }
-
 }
