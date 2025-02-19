@@ -149,6 +149,7 @@ public class SkillManager : MonoBehaviour
         {
             pra.isSkillActive = true;
             aoeIndicatorInstance = Instantiate(aoeIndicatorPrefab, skillIndicatorContainer);
+            aoeIndicatorInstance.transform.localScale = new Vector3(skillSlots[indexActiveSkill.Value].radiusAoE, skillSlots[indexActiveSkill.Value].radiusAoE, skillSlots[indexActiveSkill.Value].radiusAoE);
             aoeIndicatorInstance.SetActive(true);
             aoeIndicatorInstance.transform.position = pra.GetCursorPosition();
         }

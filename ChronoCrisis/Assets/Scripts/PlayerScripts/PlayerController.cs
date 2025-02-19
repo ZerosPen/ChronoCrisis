@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float coolDownDash = 1f;
     [SerializeField] private float manaPoint = 50f;
     [SerializeField] private float manaPointRegen = 5f;
-    [SerializeField] private float powerMagic = 50f;
+    public float magicPower = 50f;
     private float Def = 20f;
     public float currHitPoint;
     public float currManaPoint;
@@ -67,7 +67,9 @@ public class PlayerController : MonoBehaviour
         attack();
         skillCastQ();
         skillCastE();
-        if(currManaPoint < manaPoint)
+        skillCastR();
+        skillCastT();
+        if (currManaPoint < manaPoint)
         {
             isRestorMana = true;
             RestoreMana();
@@ -111,14 +113,15 @@ public class PlayerController : MonoBehaviour
             StartCoroutine(DashDuration());
 
             //double dash mechanic
-            if(dashCount == 1){
+            if (dashCount == 1 || dashCount == maxDashes)
+            {
                 StartCoroutine(CoolDownDash());
+                if (dashCount == maxDashes)
+                {
+                    canDash = false;
+                }
             }
-            if(dashCount == maxDashes){
-                StartCoroutine(CoolDownDash());
-                canDash = false;
-            }
-            
+
         }
 
         if(isDashing)
@@ -149,7 +152,7 @@ public class PlayerController : MonoBehaviour
                 if (enemys.gameObject.CompareTag("EnemyPhysical") || (enemys.gameObject.CompareTag("EnemyMagic")))
                 {
                     EnemyController enemy = enemys.GetComponent<EnemyController>();
-                    enemy.EnemyTakeDamage(damageATK);
+                    enemy.EnemyTakeDamageFormPlayer(damageATK);
                 }
             }
         }

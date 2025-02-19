@@ -1,13 +1,27 @@
 using Unity.VisualScripting;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Skills/FireballSkill")]
+[CreateAssetMenu(menuName = "Skills/AoE")]
 public class AoE : Skill
 {
     public LayerMask enemyLayer;
     public override void useSkill(GameObject Player)
     {
         PointRatatioAction pra = GameObject.FindObjectOfType<PointRatatioAction>();
+
+        if(Player == null)
+        {
+            Debug.LogError("Player is null!");
+            return;
+        }
+
+        PlayerController playerStats = Player.GetComponent<PlayerController>();
+        if (playerStats == null)
+        {
+            Debug.LogError("PlayerController component not found on Player!");
+            return;
+        }
+
         if (pra == null)
         {
             Debug.LogError("PointRatatioAction not found!");
@@ -15,18 +29,24 @@ public class AoE : Skill
         }
 
         Vector3 castPosition = pra.GetCursorPosition();
-        Debug.Log("Casting Fireball at " + castPosition + " Deals " + damageDeal + " damage.");
+        float magicDamage = damageDeal + (playerStats.magicPower / 100);
 
         // Detect enemies in the radius
         Collider2D[] hitEnemies = Physics2D.OverlapCircleAll(castPosition, radiusAoE, enemyLayer);
 
-        foreach (Collider2D enemy in hitEnemies)
+        foreach (Collider2D enemys in hitEnemies)
         {
             // Apply damage if the enemy has a health component
-            EnemyController enemyHealth = enemy.GetComponent<EnemyController>();
+            EnemyController enemyHealth = enemys.GetComponent<EnemyController>();
             if (enemyHealth != null)
             {
-                enemyHealth.EnemyTakeDamage(damageDeal);
+                Debug.Log($"Hit enemy: {enemys.name} - Applying {magicDamage} damage");
+
+                enemyHealth.EnemyTakeDamageFormSkill(damageType == "magic" ? magicDamage : damageDeal, damageType);
+            }
+            else
+            {
+                Debug.Log("EnemyController component not found on " + enemys.name);
             }
         }
     }

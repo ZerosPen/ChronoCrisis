@@ -27,6 +27,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform waypointsA;
     [SerializeField] private Transform waypointsB;
     private Vector2 targetWayPoint;
+    private Skill skills;
     [SerializeField] private LayerMask playerLayer;
 
     void Start()
@@ -139,19 +140,40 @@ public class EnemyController : MonoBehaviour
         isStopped = false;
     }
 
-    public void EnemyTakeDamage(float damage)
+    public void EnemyTakeDamageFormPlayer(float damage)
     {
         if (CompareTag("EnemyPhysical")) // Correct tag check
         {
-            damage -= damage * (physicalRes / 100); // Apply physical resistance
+            damage -= damage * (physicalRes / 100);
         }
 
         else if (CompareTag("EnemyMagic")) // Correct tag check
         {
-            damage -= damage * (physicalRes / 100); // Apply physical resistance
+            damage -= damage * (physicalRes / 100);
         }
 
         currentHp -= damage; // Subtract from current HP
+
+        if (currentHp <= 0)
+        {
+            EnemyDead();
+        }
+    }
+
+    public void EnemyTakeDamageFormSkill(float damage, string damageType)
+    {
+        if (damageType == "physical")
+        {
+            damage -= (damage * (physicalRes / 100));
+            Debug.Log($"{damageType} {damage}");
+        }
+        else if (damageType == "magic")
+        {
+            damage -= (damage * (magicRes / 100));
+            Debug.Log($"{damageType} {damage}");
+        }
+
+        currentHp -= damage;
 
         if (currentHp <= 0)
         {
