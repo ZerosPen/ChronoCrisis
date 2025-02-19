@@ -56,6 +56,7 @@ public class PlayerController : MonoBehaviour
         movement();
         attack();
         skillCastQ();
+        skillCastE();
     }
 
 
@@ -150,6 +151,16 @@ public class PlayerController : MonoBehaviour
             skillManager.HandleSkillSwitching(0);
         }
     }
+
+    void skillCastE()
+    {
+        if (Input.GetKeyDown(Skill2))
+        {
+            ActiveSkill = true;
+            skillManager.HandleSkillSwitching(1);
+        }
+    }
+
     #endregion
 
     //interact (F)
