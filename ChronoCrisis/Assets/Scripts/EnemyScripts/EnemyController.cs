@@ -6,14 +6,16 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [Header(("Status"))]
-    public float HitPoint = 100;
+    public float HitPoint = 35;
     [SerializeField] private float MovementSpeed = 5f;
-    [SerializeField] private float MovementChase = 2.5f;
-    [SerializeField] private float chaseRange = 5f;
-    [SerializeField] private float attackRange = 5f;
-    [SerializeField] private float stopDuration = 3f;
+    private float MovementChase = 2.5f;
+    private float chaseRange = 5f;
+    private float attackRange = 5f;
+    private float stopDuration = 3f;
     [SerializeField] private float attackDamage = 10f;
     [SerializeField] private float AttackCoolDown = 5f;
+    [SerializeField] private float physicalRes = 20;
+    [SerializeField] private float magicRes = 20;
     public float currentHp;
 
     [Header("conditon & requimen")]
@@ -47,7 +49,7 @@ public class EnemyController : MonoBehaviour
             isChasing = false;  // Stop chasing when attacking
             isAttacking = true;
             AttackCoolDown -= Time.deltaTime;
-            if(AttackCoolDown <= 0 && isAttacking)
+            if (AttackCoolDown <= 0 && isAttacking)
             {
                 AttackTarget();
             }
@@ -68,7 +70,7 @@ public class EnemyController : MonoBehaviour
                 MoveTowardTarget();
             }
         }
-}
+    }
 
     void SetNewTargetPos()
     {
@@ -97,7 +99,7 @@ public class EnemyController : MonoBehaviour
 
     private void ChaseTarget()
     {
-       if(isChasing == true)
+        if (isChasing == true)
         {
             Vector2 direction = (player.position - transform.position).normalized;
             transform.position = Vector2.MoveTowards(transform.position, player.position, MovementSpeed * MovementChase * Time.deltaTime);
@@ -115,7 +117,7 @@ public class EnemyController : MonoBehaviour
             foreach (Collider2D hitColliderPlayer in hitPlayer)
             {
                 AttackCoolDown -= Time.deltaTime;
-                if( AttackCoolDown <= 0 && isAttacking == true)
+                if (AttackCoolDown <= 0 && isAttacking == true)
                 {
                     if (hitColliderPlayer.gameObject.CompareTag("Player"))
                     {
@@ -139,13 +141,23 @@ public class EnemyController : MonoBehaviour
 
     public void EnemyTakeDamage(float damage)
     {
-        currentHp -= damage;
+        if (CompareTag("EnemyPhysical")) // Correct tag check
+        {
+            damage -= damage * (physicalRes / 100); // Apply physical resistance
+        }
+
+        else if (CompareTag("EnemyMagic")) // Correct tag check
+        {
+            damage -= damage * (physicalRes / 100); // Apply physical resistance
+        }
+
+        currentHp -= damage; // Subtract from current HP
+
         if (currentHp <= 0)
         {
             EnemyDead();
         }
     }
-
 
     private void EnemyDead()
     {

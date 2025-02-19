@@ -9,18 +9,26 @@ public class PlayerController : MonoBehaviour
     public float HitPoint = 100f;
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float RunMulti = 2f;
-    [SerializeField] private float attackRange = 5f;
     [SerializeField] private float damageATK = 5f;
     [SerializeField] private float powerDash = 15f;
     [SerializeField] private float coolDownDash = 1f;
+    [SerializeField] private float manaPoint = 50f;
+    [SerializeField] private float manaPointRegen = 5f;
+    [SerializeField] private float powerMagic = 50f;
+    private float Def = 20f;
+    public float currHitPoint;
+    public float currManaPoint;
+
+    private float attackRange = 5f;
     private Vector2 directionDash;
 
     [Header("conditon&requimen")]
-    //private bool isHealing = false;
-    //private bool isDead = false;
+    private bool isHealing = false;
+    private bool isRestorMana = false;
+    private bool isDead = false;
     private bool isDashing = false;
     private bool canDash = true;
-    public bool ActiveSkill = true;
+    public bool ActiveSkill = false;
     private Rigidbody2D rb;
     [SerializeField] private LayerMask enemyLayer;
     private SkillManager skillManager;
@@ -44,6 +52,8 @@ public class PlayerController : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         skillManager = GetComponent<SkillManager>();
+        currHitPoint = HitPoint;
+        currManaPoint = manaPoint;
 
         if (rb == null)
         {
@@ -57,6 +67,11 @@ public class PlayerController : MonoBehaviour
         attack();
         skillCastQ();
         skillCastE();
+        if(currManaPoint < manaPoint)
+        {
+            isRestorMana = true;
+            RestoreMana();
+        }
     }
 
 
@@ -131,7 +146,7 @@ public class PlayerController : MonoBehaviour
             foreach (Collider2D enemys in hitEnemies)
             {
 
-                if (enemys.gameObject.CompareTag("Enemy"))
+                if (enemys.gameObject.CompareTag("EnemyPhysical") || (enemys.gameObject.CompareTag("EnemyMagic")))
                 {
                     EnemyController enemy = enemys.GetComponent<EnemyController>();
                     enemy.EnemyTakeDamage(damageATK);
@@ -161,6 +176,24 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    void skillCastR()
+    {
+        if (Input.GetKeyDown(Skill3))
+        {
+            ActiveSkill = true;
+            skillManager.HandleSkillSwitching(2);
+        }
+    }
+
+    void skillCastT()
+    {
+        if (Input.GetKeyDown(Skill4))
+        {
+            ActiveSkill = true;
+            skillManager.HandleSkillSwitching(3);
+        }
+    }
+
     #endregion
 
     //interact (F)
@@ -172,6 +205,22 @@ public class PlayerController : MonoBehaviour
     void recievedPowerUp(){
         
     }
+
+    void RestoreMana()
+    {
+        isRestorMana = true;
+
+        if (currManaPoint < manaPoint && isRestorMana)
+        {
+
+            currManaPoint += manaPointRegen / Time.deltaTime;
+            
+            Debug.Log("Mana Restored: " + currManaPoint);
+        }
+
+        isRestorMana = false; // Stops when full
+    }
+
 
     private IEnumerator CoolDownDash()
     {
@@ -189,7 +238,7 @@ public class PlayerController : MonoBehaviour
 
     public void recievedDamage(float damage)
     {
-        HitPoint -= damage;
+        currHitPoint -= damage;
         
         if(HitPoint <= 0)
         {

@@ -9,6 +9,7 @@ public class SkillManager : MonoBehaviour
     private PlayerController playerController;
     private int? indexActiveSkill = null;
     [SerializeField] private bool isAiming = false;
+    private bool isCasting = false;
 
     private Dictionary<Skill, float> skillCooldowns = new Dictionary<Skill, float>();
 
@@ -16,6 +17,7 @@ public class SkillManager : MonoBehaviour
     [SerializeField] private GameObject singleTargetIndicatorPrefab;
     [SerializeField] private Transform skillIndicatorContainer;
     [SerializeField] private Transform weaponTransform; // Assign this in the Inspector
+    private Vector3 originalWeaponPosition;
 
     private Quaternion originalWeaponRotation;
     private GameObject aoeIndicatorInstance;
@@ -33,6 +35,7 @@ public class SkillManager : MonoBehaviour
             if (skill != null)
                 skillCooldowns[skill] = 0;
         }
+        originalWeaponPosition = weaponTransform.position;
     }
 
     void Update()
@@ -46,30 +49,38 @@ public class SkillManager : MonoBehaviour
 
             if (activeSkill.typeSkill == "AoE" && aoeIndicatorInstance != null)
             {
+                // Move only the AoE indicator, NOT the weapon
                 aoeIndicatorInstance.transform.position = pra.GetCursorPosition();
+
+                // Rotate the weapon to face the cursor
+                RotateWeaponTowardsCursor();
             }
             else if ((activeSkill.typeSkill == "SingelTarget" || activeSkill.typeSkill == "Singel") && singleTargetInstance != null)
             {
-                Vector3 cursorPosition = pra.GetCursorPosition();
-                Vector3 direction = cursorPosition - weaponTransform.position;
-                float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                singleTargetInstance.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+                // Rotate the weapon towards the cursor for single target skills
+                RotateWeaponTowardsCursor();
             }
         }
+        if(isCasting == false)
+        {
+            ResetPosition();
+        }
     }
+
 
     public void HandleSkillSwitching(int indexSkill)
     {
         if (indexSkill >= 0 && indexSkill < skillSlots.Length && skillSlots[indexSkill] != null)
         {
             indexActiveSkill = indexSkill;
+            isCasting = true;
             Debug.Log($"Skill selected: {indexActiveSkill.Value}");
         }
     }
 
     void HandleSkillUse()
     {
-        if (Input.GetMouseButtonDown(0) && indexActiveSkill.HasValue && playerController.ActiveSkill)
+        if (Input.GetMouseButtonDown(0) && indexActiveSkill.HasValue && playerController.ActiveSkill && isCasting)
         {
             Skill activeSkill = skillSlots[indexActiveSkill.Value];
             if (skillCooldowns[activeSkill] > 0)
@@ -82,7 +93,7 @@ public class SkillManager : MonoBehaviour
             StartUseSkill(activeSkill.typeSkill);
             return;
         }
-        else if (isAiming && Input.GetMouseButtonUp(0) && playerController.ActiveSkill)
+        else if (isAiming && Input.GetMouseButtonUp(0) && playerController.ActiveSkill && isCasting)
         {
             Skill activeSkill = skillSlots[indexActiveSkill.Value];
 
@@ -95,8 +106,22 @@ public class SkillManager : MonoBehaviour
             pra.isSkillActive = false;
             indexActiveSkill = null;
 
+            // Store last AoE position BEFORE destroying the indicator
+            Vector3 lastAoEPosition = aoeIndicatorInstance != null ? aoeIndicatorInstance.transform.position : skillIndicatorContainer.position;
+
             DestroyIndicators();
+            isCasting = false;
+            // Rotate weapon to face last AoE position
+            Vector3 direction = lastAoEPosition - skillIndicatorContainer.position;
+            float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+            weaponTransform.rotation = Quaternion.Euler(0f, 0f, angle);
         }
+    }
+
+    void ResetPosition()
+    {
+        skillIndicatorContainer.position = Vector3.zero;
+        weaponTransform.localPosition = new Vector3(0.73f, 0f, 0f);
     }
 
     void UpdateCooldowns()
@@ -133,6 +158,18 @@ public class SkillManager : MonoBehaviour
             singleTargetInstance.SetActive(true);
             singleTargetInstance.transform.position = weaponTransform.position;
         }
+    }
+
+    void RotateWeaponTowardsCursor()
+    {
+        Vector3 cursorPosition = pra.GetCursorPosition();
+        Vector3 direction = cursorPosition - weaponTransform.position;
+
+        // Calculate rotation angle
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+
+        // Apply rotation without changing position
+        weaponTransform.rotation = Quaternion.Euler(0f, 0f, angle);
     }
 
     private void DestroyIndicators()
