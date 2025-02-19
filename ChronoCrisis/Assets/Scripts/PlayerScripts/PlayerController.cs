@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Status")]
     public float HitPoint = 100f;
+
+    [SerializeField] private DialogueUI dialogueUI;
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float RunMulti = 2f;
     [SerializeField] private float damageATK = 5f;
@@ -47,6 +49,10 @@ public class PlayerController : MonoBehaviour
     public KeyCode item2 = KeyCode.Alpha2;
     public KeyCode item3 = KeyCode.Alpha3;
 
+    public DialogueUI DialogueUI => dialogueUI;
+
+    public IInteractable Interactable {get; set;}
+
 
     void Start()
     {
@@ -63,6 +69,8 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+       // if (dialogueUI.IsOpen) return;
+
         movement();
         attack();
         skillCastQ();
@@ -74,6 +82,16 @@ public class PlayerController : MonoBehaviour
             isRestorMana = true;
             RestoreMana();
         }
+
+        //interact
+        if(Input.GetKeyDown(KeyCode.F))
+        {
+            Interactable?.Interact(this);
+            
+        } 
+
+
+
     }
 
 
