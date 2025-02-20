@@ -9,8 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2878a8e026c3ea648898dd580b34d4bb, type: 3}
+  m_Script: {fileID: 11500000, guid: ac50de53db3e5824f90d0afc9e35ed19, type: 3}
   m_Name: No
   m_EditorClassIdentifier: 
   dialogue:
-  - No
+  - Loeh Siapa? By1 dek
+  responses: []
