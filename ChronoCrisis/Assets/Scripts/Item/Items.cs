@@ -1,18 +1,15 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
-public class Items : MonoBehaviour
+public abstract class Items : ScriptableObject
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private string itemName;
+    [SerializeField] private float restoreValue;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public string ItemName => itemName;
+    public float RestoreValue => restoreValue;
+
+    public virtual void UseItem() { }
 }

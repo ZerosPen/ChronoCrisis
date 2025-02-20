@@ -9,7 +9,7 @@ public class SkillManager : MonoBehaviour
     private PlayerController playerController;
     private int? indexActiveSkill = null;
     [SerializeField] private bool isAiming = false;
-    private bool isCasting = false;
+    [SerializeField] private bool isCasting = false;
 
     private Dictionary<Skill, float> skillCooldowns = new Dictionary<Skill, float>();
 
@@ -72,9 +72,20 @@ public class SkillManager : MonoBehaviour
     {
         if (indexSkill >= 0 && indexSkill < skillSlots.Length && skillSlots[indexSkill] != null)
         {
-            indexActiveSkill = indexSkill;
-            isCasting = true;
-            Debug.Log($"Skill selected: {indexActiveSkill.Value}");
+            Skill selectedSkill = skillSlots[indexSkill];
+
+            if (skillCooldowns.ContainsKey(selectedSkill) && skillCooldowns[selectedSkill] > 1.5f)
+            {
+                Debug.Log($"Cannot select {selectedSkill.skillName}, cooldown: {skillCooldowns[selectedSkill]}s left.");
+                return;
+            }
+            else
+            {
+                // Select the skill
+                indexActiveSkill = indexSkill;
+                isCasting = true;
+                Debug.Log($"Skill selected: {selectedSkill.skillName}");
+            }
         }
     }
 
@@ -93,25 +104,29 @@ public class SkillManager : MonoBehaviour
             StartUseSkill(activeSkill.typeSkill);
             return;
         }
-        else if (isAiming && Input.GetMouseButtonUp(0) && playerController.ActiveSkill && isCasting && playerController.currManaPoint >= skillSlots[indexActiveSkill.Value].manaUse)
+        else if (Input.GetMouseButtonUp(0) && isAiming && playerController.ActiveSkill && isCasting && playerController.currManaPoint >= skillSlots[indexActiveSkill.Value].manaUse)
         {
+            Debug.Log("Mouse Button Up Detected");
+            Debug.Log("isAiming: " + isAiming);
+            Debug.Log("ActiveSkill: " + playerController.ActiveSkill);
+            Debug.Log("isCasting: " + isCasting);
+            Debug.Log("Mana: " + playerController.currManaPoint + " / " + skillSlots[indexActiveSkill.Value].manaUse);
+
             Skill activeSkill = skillSlots[indexActiveSkill.Value];
+            Debug.Log("Casting skill: " + activeSkill.skillName);
 
             activeSkill.useSkill(playerController.gameObject);
             skillCooldowns[activeSkill] = activeSkill.coolDown;
             playerController.ActiveSkill = false;
             StartCoroutine(playerController.CoolDownChangeSkill());
 
-            isAiming = false;
-            pra.isSkillActive = false;
-            indexActiveSkill = null;
+            StartCoroutine(ResetAimingAfterCast());
 
-            // Store last AoE position BEFORE destroying the indicator
             Vector3 lastAoEPosition = aoeIndicatorInstance != null ? aoeIndicatorInstance.transform.position : skillIndicatorContainer.position;
 
             DestroyIndicators();
             isCasting = false;
-            // Rotate weapon to face last AoE position
+
             Vector3 direction = lastAoEPosition - skillIndicatorContainer.position;
             float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             weaponTransform.rotation = Quaternion.Euler(0f, 0f, angle);
@@ -145,21 +160,46 @@ public class SkillManager : MonoBehaviour
             originalWeaponRotation = weaponTransform.rotation;
         }
 
-        if (type == "AoE" && aoeIndicatorInstance == null && aoeIndicatorPrefab != null && isAiming)
+        // Destroy previous indicators to avoid conflicts
+        if (aoeIndicatorInstance != null)
+        {
+            Destroy(aoeIndicatorInstance);
+        }
+        if (singleTargetInstance != null)
+        {
+            Destroy(singleTargetInstance);
+        }
+
+        if (type == "AoE" && aoeIndicatorPrefab != null && isAiming)
         {
             pra.isSkillActive = true;
             aoeIndicatorInstance = Instantiate(aoeIndicatorPrefab, skillIndicatorContainer);
-            aoeIndicatorInstance.transform.localScale = new Vector3(skillSlots[indexActiveSkill.Value].radiusAoE, skillSlots[indexActiveSkill.Value].radiusAoE, skillSlots[indexActiveSkill.Value].radiusAoE);
+
+            // Ensure valid skill index before setting scale
+            if (indexActiveSkill.HasValue && indexActiveSkill.Value < skillSlots.Length)
+            {
+                aoeIndicatorInstance.transform.localScale = new Vector3(
+                    skillSlots[indexActiveSkill.Value].radiusAoE,
+                    skillSlots[indexActiveSkill.Value].radiusAoE,
+                    skillSlots[indexActiveSkill.Value].radiusAoE
+                );
+            }
+            else
+            {
+                Debug.LogError("Invalid skill index!");
+            }
+
             aoeIndicatorInstance.SetActive(true);
             aoeIndicatorInstance.transform.position = pra.GetCursorPosition();
         }
-        else if ((type == "SingelTarget" || type == "Singel") && singleTargetInstance == null && singleTargetIndicatorPrefab != null && isAiming)
+        else if ((type == "SingelTarget" || type == "Singel") && singleTargetIndicatorPrefab != null && isAiming)
         {
             singleTargetInstance = Instantiate(singleTargetIndicatorPrefab, skillIndicatorContainer);
             singleTargetInstance.SetActive(true);
             singleTargetInstance.transform.position = weaponTransform.position;
         }
     }
+
 
     void RotateWeaponTowardsCursor()
     {
@@ -171,6 +211,14 @@ public class SkillManager : MonoBehaviour
 
         // Apply rotation without changing position
         weaponTransform.rotation = Quaternion.Euler(0f, 0f, angle);
+    }
+
+    IEnumerator ResetAimingAfterCast()
+    {
+        yield return new WaitForSeconds(0.1f); // Small delay to allow re-aiming
+        isAiming = false;
+        pra.isSkillActive = false;
+        indexActiveSkill = null;
     }
 
     private void DestroyIndicators()
