@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09ff4536982c14048aec8cb29750940e, type: 3}
-  m_Name: WaterJet
+  m_Name: IceSpear
   m_EditorClassIdentifier: 
-  skillName: WaterJet
+  skillName: IceSpear
   typeSkill: AoE
-  coolDown: 20
-  radiusAoE: 15
-  damageDeal: 5
-  manaUse: 10
+  coolDown: 16
+  radiusAoE: 10
+  damageDeal: 50
+  manaUse: 55
   damageType: Magic
   enemyLayer:
     serializedVersion: 2

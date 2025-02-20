@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 09ff4536982c14048aec8cb29750940e, type: 3}
-  m_Name: WaterJet
+  m_Name: SylphsBurst
   m_EditorClassIdentifier: 
-  skillName: WaterJet
+  skillName: SylphsBurst
   typeSkill: AoE
-  coolDown: 20
-  radiusAoE: 15
-  damageDeal: 5
-  manaUse: 10
+  coolDown: 35
+  radiusAoE: 25
+  damageDeal: 20
+  manaUse: 0
   damageType: Magic
   enemyLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0

@@ -17,7 +17,7 @@ MonoBehaviour:
   coolDown: 5
   radiusAoE: 5
   damageDeal: 10
-  manaUse: 5
+  manaUse: 10
   damageType: Magic
   enemyLayer:
     serializedVersion: 2

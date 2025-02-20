@@ -128,7 +128,7 @@ public class BossControl : MonoBehaviour
 
     IEnumerator MissileLaunch()
     {
-        int waves = 30;
+        int waves = Random.Range(50,101);
         float angleOffset = 0;
         for (int w = 0; w < waves; w++)
         {
@@ -139,9 +139,10 @@ public class BossControl : MonoBehaviour
                 GameObject missile = Instantiate(missilePrefab, transform.position, Quaternion.identity);
                 missile.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
                 recentAttackPositions.Add(missile.transform.position);
+                angleOffset += Random.Range(10f,15f);
             }
-            angleOffset += 15f;
-            yield return new WaitForSeconds(0.2f);
+            
+            yield return new WaitForSeconds(0.15f);
         }
     }
 
