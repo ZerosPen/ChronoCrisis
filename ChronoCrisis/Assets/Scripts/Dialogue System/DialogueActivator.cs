@@ -10,19 +10,21 @@ public class DialogueActivator : MonoBehaviour, IInteractable
     {
         this.dialogueObject=dialogueObject;
     }
-    private void OnTriggEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if(other.CompareTag("Player") && other.TryGetComponent(out PlayerController player))
         {
+            Debug.Log("Player enter Interactable zone");
             player.Interactable = this;
         }
     }
-    private void OniggerExit2D(Collider2D other)
+    private void OnTriggerExit2D(Collider2D other)
     {
         if(other.CompareTag("Player") && other.TryGetComponent(out PlayerController player))
         {
             if(player.Interactable is DialogueActivator dialogueActivator && dialogueActivator == this)
             {
+                Debug.Log("Player out Interactable zone");
                 player.Interactable = null;
             }
         }

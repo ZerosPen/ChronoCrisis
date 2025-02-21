@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac50de53db3e5824f90d0afc9e35ed19, type: 3}
-  m_Name: Yes
+  m_Script: {fileID: 11500000, guid: 35d1a3e4fd2fbac4eba160dd40fd49ba, type: 3}
+  m_Name: Fireball
   m_EditorClassIdentifier: 
-  dialogue:
-  - Halo, namaku EHHEHEE
-  responses: []
+  title: {fileID: 0}
+  type: 0
+  actionType: 0
+  range: {x: 5, y: 4}
+  stackable: 0
+  image: {fileID: 0}

@@ -3,12 +3,15 @@ using UnityEngine;
 using TMPro;
 using Unity.VisualScripting;
 using System.Collections.Generic;
+using Microsoft.Unity.VisualStudio.Editor;
 
 public class DialogueUI : MonoBehaviour
 {
     [SerializeField] private GameObject dialogueBox;
     [SerializeField] private TMP_Text textLabel;
-    [SerializeField] private DialogueObject testDialogue;
+
+    [SerializeField] private Sprite characterSprite;
+    [SerializeField] private Image imageHolder;
 
     public bool IsOpen {get; private set;}
 
@@ -21,7 +24,6 @@ public class DialogueUI : MonoBehaviour
         typeWriter = GetComponent<TypeWriter>();
         responseHandler = GetComponent<ResponseHandler>();
         CloseDialogueBox();
-    //    ShowDialogue(testDialogue);
     }
     public void ShowDialogue(DialogueObject dialogueObject)
     {
@@ -37,8 +39,6 @@ public class DialogueUI : MonoBehaviour
 
     private IEnumerator StepThroughDialogue(DialogueObject dialogueObject)
     {
-
-        // yield return new WaitForSeconds(2);
 
 
         for(int i=0;i<dialogueObject.Dialogue.Length;i++)

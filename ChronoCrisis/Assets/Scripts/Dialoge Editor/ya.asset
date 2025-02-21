@@ -10,15 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ac50de53db3e5824f90d0afc9e35ed19, type: 3}
-  m_Name: Text
+  m_Name: ya
   m_EditorClassIdentifier: 
   dialogue:
-  - 'Hello kamu siapa?
-
-    kayak baru pernah liat.'
-  - Nama aku ppp
-  responses:
-  - responseText: Yes
-    dialogueObject: {fileID: 11400000, guid: 7ae8991940e97504e863dca9811788d8, type: 2}
-  - responseText: No
-    dialogueObject: {fileID: 11400000, guid: b90b2e9917bc7344db18bab05a640c6f, type: 2}
+  - yaaaaa
+  responses: []

@@ -9,9 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ac50de53db3e5824f90d0afc9e35ed19, type: 3}
-  m_Name: No
-  m_EditorClassIdentifier: 
+  m_Script: {fileID: 0}
+  m_Name: Halo
+  m_EditorClassIdentifier: Assembly-CSharp::DialogueObject
   dialogue:
-  - Loeh Siapa? By1 dek
+  - Okay,Terimakasih sudah lanjut mari, kita mulai berjelajah
   responses: []
