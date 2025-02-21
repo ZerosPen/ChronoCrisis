@@ -42,7 +42,7 @@ public class AoE : Skill
             {
                 Debug.Log($"Hit enemy: {enemys.name} - Applying {magicDamage} damage");
 
-                enemyHealth.EnemyTakeDamageFormSkill(damageType == "magic" ? magicDamage : damageDeal, damageType);
+                enemyHealth.EnemyTakeDamage(damageType == "magic" ? magicDamage : damageDeal, damageType);
             }
             else
             {

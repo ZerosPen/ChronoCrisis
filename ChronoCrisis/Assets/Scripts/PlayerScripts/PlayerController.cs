@@ -20,6 +20,7 @@ public class PlayerController : MonoBehaviour
     private float Def = 20f;
     public float currHitPoint;
     public float currManaPoint;
+    private string damageType = "basic";
 
     private float attackRange = 5f;
     private Vector2 directionDash;
@@ -170,7 +171,7 @@ public class PlayerController : MonoBehaviour
                 if (enemys.gameObject.CompareTag("EnemyPhysical") || (enemys.gameObject.CompareTag("EnemyMagic")))
                 {
                     EnemyController enemy = enemys.GetComponent<EnemyController>();
-                    enemy.EnemyTakeDamageFormPlayer(damageATK);
+                    enemy.EnemyTakeDamage(damageATK, damageType);
                 }
             }
         }

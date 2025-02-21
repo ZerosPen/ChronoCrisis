@@ -140,7 +140,7 @@ public class EnemyController : MonoBehaviour
         isStopped = false;
     }
 
-    public void EnemyTakeDamageFormPlayer(float damage)
+    public void EnemyTakeDamage(float damage, string damageType)
     {
         if (CompareTag("EnemyPhysical")) // Correct tag check
         {
@@ -152,17 +152,7 @@ public class EnemyController : MonoBehaviour
             damage -= damage * (physicalRes / 100);
         }
 
-        currentHp -= damage; // Subtract from current HP
-
-        if (currentHp <= 0)
-        {
-            EnemyDead();
-        }
-    }
-
-    public void EnemyTakeDamageFormSkill(float damage, string damageType)
-    {
-        if (damageType == "physical")
+        else if (damageType == "physical")
         {
             damage -= (damage * (physicalRes / 100));
             Debug.Log($"{damageType} {damage}");
@@ -172,8 +162,19 @@ public class EnemyController : MonoBehaviour
             damage -= (damage * (magicRes / 100));
             Debug.Log($"{damageType} {damage}");
         }
+        else
+        {
+            damage -= damage * (25 / 100);
+        }
 
         currentHp -= damage;
+
+        if (currentHp <= 0)
+        {
+            EnemyDead();
+        }
+
+        currentHp -= damage; // Subtract from current HP
 
         if (currentHp <= 0)
         {
