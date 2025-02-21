@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float coolDownDash = 1f;
     [SerializeField] private float manaPoint = 50f;
     [SerializeField] private float manaPointRegen = 5f;
+    public Transform spawnPlayer;
     public int maxDashes = 2; // Allows up to double dash
     public float dashDuration = 0.2f; // Duration of each dash
     private int dashCount = 0;
@@ -24,18 +25,23 @@ public class PlayerController : MonoBehaviour
     public float currHitPoint;
     public float currManaPoint;
     private string damageType = "basic";
-
+    public int playerExp = 0;
+    public int enemyKilled = 0;
     private float attackRange = 5f;
     private Vector2 directionDash;
+
+    public bool hasKey = false;
 
     [Header("conditon&requimen")]
     private bool isHealing = false;
     private bool isRestorMana = false;
-    private bool isDead = false;
+    public bool isDead = false;
     private bool isDashing = false;
     private bool canDash = true;
     public bool ActiveSkill = false;
-    public bool isSlowed = false;   
+    public bool isSlowed = false;
+    private int baseMilestone = 100;
+    private int nextMilestone;
     private Rigidbody2D rb;
     [SerializeField] private LayerMask enemyLayer;
     private SkillManager skillManager;
@@ -61,6 +67,7 @@ public class PlayerController : MonoBehaviour
 
     void Start()
     {
+        transform.position =  spawnPlayer.transform.position;
         rb = GetComponent<Rigidbody2D>();
         skillManager = GetComponent<SkillManager>();
         currHitPoint = HitPoint;
@@ -70,6 +77,8 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("The Rigidbody2D is missing!");
         }
+
+        nextMilestone = baseMilestone;
     }
 
     void Update()
@@ -96,7 +105,12 @@ public class PlayerController : MonoBehaviour
         {
             Interactable?.Interact(this);
             
-        } 
+        }
+
+        if (playerExp >= nextMilestone)
+        {
+            levelUp();
+        }
 
     }
 
@@ -264,6 +278,11 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    public void levelUp()
+    {
+        
+    }
+
     public void RestoreStatus(float value)
     {
         isRestorMana = true;
@@ -300,10 +319,24 @@ public class PlayerController : MonoBehaviour
         
         if(HitPoint <= 0)
         {
-            //isDead = true;
+            isDead = true;
             gameObject.SetActive(false);
-            Destroy(gameObject);
         }
+    }
+
+    public void resetPositionPlayer()
+    {
+        if (spawnPlayer != null)
+        {
+            transform.position = spawnPlayer.position;
+        }
+        else
+        {
+            Debug.LogError("Spawn position is missing!");
+        }
+        currHitPoint = HitPoint;
+        currManaPoint = manaPoint;
+        gameObject.SetActive(true);
     }
 
     private void OnDrawGizmosSelected()

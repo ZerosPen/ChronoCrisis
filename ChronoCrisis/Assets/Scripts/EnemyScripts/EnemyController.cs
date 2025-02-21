@@ -6,7 +6,7 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [Header(("Status"))]
-    public float HitPoint = 35;
+    [SerializeField] private float HitPoint = 35;
     [SerializeField] private float MovementSpeed = 5f;
     private float MovementChase = 2.5f;
     private float chaseRange = 5f;
@@ -17,6 +17,11 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float physicalRes = 20;
     [SerializeField] private float magicRes = 20;
     public float currentHp;
+    public float currentMagic;
+    public float currentAttack;
+    public float currentPhysicalRes;
+    public float currentMagicRes;
+
 
     [Header("conditon & requimen")]
     [SerializeField] private Transform player;
@@ -71,6 +76,11 @@ public class EnemyController : MonoBehaviour
                 MoveTowardTarget();
             }
         }
+    }
+
+    public void ScalingUp(int loop, int worldLevel)
+    {
+        currentAttack = currentAttack + (0.2f /  loop) + (2.5f/worldLevel);
     }
 
     void SetNewTargetPos()
