@@ -16,6 +16,9 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float coolDownDash = 1f;
     [SerializeField] private float manaPoint = 50f;
     [SerializeField] private float manaPointRegen = 5f;
+    public int maxDashes = 2; // Allows up to double dash
+    public float dashDuration = 0.2f; // Duration of each dash
+    private int dashCount = 0;
     public float magicPower = 50f;
     private float Def = 20f;
     public float currHitPoint;
@@ -79,10 +82,13 @@ public class PlayerController : MonoBehaviour
         skillCastE();
         skillCastR();
         skillCastT();
+        usingItem1();
+        usingItem2();
+        usingItem3();
         if (currManaPoint < manaPoint)
         {
             isRestorMana = true;
-            RestoreMana();
+            RestoreStatus(manaPointRegen);
         }
 
         //interact
@@ -92,14 +98,15 @@ public class PlayerController : MonoBehaviour
             
         } 
 
-
-
     }
 
-
-    private int dashCount = 0;
-    public int maxDashes = 2; // Allows up to double dash
-    public float dashDuration = 0.2f; // Duration of each dash
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Wall"))
+        {
+            Debug.Log("Player hit the wall!");
+        }
+    }
 
     void movement()
     {
@@ -224,19 +231,47 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    // UsingItem
+    #region (UsingItem)
+    void usingItem1()
+    {
+        if (Input.GetKeyDown(item1))
+        {
+
+        }
+    }
+
+    void usingItem2()
+    {
+        if (Input.GetKeyDown(item2))
+        {
+
+        }
+    }
+
+    void usingItem3()
+    {
+        if (Input.GetKeyDown(item3))
+        {
+
+        }
+    }
+
+    #endregion
+
     //recieved item
     void recievedPowerUp(){
         
     }
 
-    void RestoreMana()
+    public void RestoreStatus(float value)
     {
         isRestorMana = true;
 
         if (currManaPoint < manaPoint && isRestorMana)
         {
 
-            currManaPoint += manaPointRegen / Time.deltaTime;
+            currManaPoint += value / Time.deltaTime;
             
             Debug.Log("Mana Restored: " + currManaPoint);
         }

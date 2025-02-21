@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using Unity.IO.LowLevel.Unsafe;
 using UnityEngine;
 
+[CreateAssetMenu(menuName = "Items")]
 public abstract class Items : ScriptableObject
 {
-    [SerializeField] private string itemName;
-    [SerializeField] private float restoreValue;
+    public string itemName;
+    public string itemType;
+    public float valueItem;
+    public float priceItem;
 
-    public string ItemName => itemName;
-    public float RestoreValue => restoreValue;
-
-    public virtual void UseItem() { }
+    public virtual void UseItem(GameObject Player) { }
 }

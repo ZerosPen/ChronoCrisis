@@ -1031,10 +1031,13 @@ MonoBehaviour:
   coolDownDash: 1
   manaPoint: 50
   manaPointRegen: 5
+  maxDashes: 2
+  dashDuration: 0.2
   magicPower: 50
   currHitPoint: 0
   currManaPoint: 0
   ActiveSkill: 0
+  isSlowed: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
@@ -1049,8 +1052,6 @@ MonoBehaviour:
   item1: 49
   item2: 50
   item3: 51
-  maxDashes: 2
-  dashDuration: 0.2
 --- !u!50 &745163480
 Rigidbody2D:
   serializedVersion: 4
@@ -1139,7 +1140,7 @@ Transform:
   m_GameObject: {fileID: 745163478}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 6.27, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

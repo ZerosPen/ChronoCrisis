@@ -8,6 +8,7 @@ TagManager:
   - EnemyPhysical
   - EnemyMagic
   - Trap
+  - Wall
   layers:
   - Default
   - TransparentFX
@@ -17,7 +18,7 @@ TagManager:
   - UI
   - Enemy
   - Player
-  - 
+  - Wall
   - 
   - 
   - 
