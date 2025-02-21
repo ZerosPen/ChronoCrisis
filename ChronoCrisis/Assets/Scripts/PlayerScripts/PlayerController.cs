@@ -32,6 +32,7 @@ public class PlayerController : MonoBehaviour
     private bool isDashing = false;
     private bool canDash = true;
     public bool ActiveSkill = false;
+    public bool isSlowed = false;   
     private Rigidbody2D rb;
     [SerializeField] private LayerMask enemyLayer;
     private SkillManager skillManager;
