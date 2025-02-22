@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 public class InventorySkills : MonoBehaviour
 {
-    [HideInInspector] public Itemss item;
+    [HideInInspector] public Itemss itemss;
     
     public Image image;
     public TMP_Text countText;
@@ -20,9 +20,9 @@ public class InventorySkills : MonoBehaviour
             image = GetComponent<Image>();
         }
     }
-    public void InitialiseItem(Itemss newItem){
-        item = newItem;
-        image.sprite = newItem.image;
+    public void InitialiseItem(Itemss newItemss){
+        itemss = newItemss;
+        image.sprite = newItemss.image;
         RefreshCount();
     }
     public void RefreshCount(){

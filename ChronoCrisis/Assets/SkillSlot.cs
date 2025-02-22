@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class SkillSlot : MonoBehaviour, IDropHandler
 {
     public Image image;
-    public Color selectedColor, notSelectedColour;
+    public Color selectedColor, notSelectedColor;
 
     private void Awake()
     {
@@ -19,7 +19,7 @@ public class SkillSlot : MonoBehaviour, IDropHandler
     }
     public void Deselect()
     {
-        image.color = notSelectedColour;
+        image.color = notSelectedColor;
     }
 
     public void OnDrop(PointerEventData eventData){

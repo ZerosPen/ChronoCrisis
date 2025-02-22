@@ -12,10 +12,6 @@ public class InventoryManager : MonoBehaviour
     int selectedSlot = -1;
 
 
-    // private void Sart()
-    // {
-    //     ChangeSelectedSlot(0);
-    // }
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Q))
@@ -53,7 +49,7 @@ public class InventoryManager : MonoBehaviour
         {
             SkillSlot slot = skillSlots[i];
             InventorySkills itemInSlot = slot.GetComponentInChildren<InventorySkills>();
-            if (itemInSlot != null && itemInSlot.item==itemss && itemInSlot.count < maxStackedItems && itemInSlot.item.stackable == true )
+            if (itemInSlot != null && itemInSlot.itemss==itemss && itemInSlot.count < maxStackedItems && itemInSlot.itemss.stackable == true )
             {
                 itemInSlot.count++;
                 itemInSlot.RefreshCount();
