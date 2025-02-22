@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour
     public float pointVit = 10;
 
     [SerializeField] private DialogueUI dialogueUI;
-    private UIManager uiManager;
+    [SerializeField] private UIManager uiManager;
     public float movementSpeed = 5f;
     public float AttackSpeed = 2f;
     [SerializeField] private float RunMulti = 2f;
@@ -86,6 +86,10 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("The Rigidbody2D is missing!");
         }
+        if (uiManager == null)
+        {
+            Debug.LogError("uiManager is NULL");
+        }
 
         nextMilestone = baseMilestone;
     }
@@ -104,14 +108,9 @@ public class PlayerController : MonoBehaviour
         usingItem2();
         usingItem3();
 
-        uiManager = GetComponent<UIManager>();
-        if ( uiManager == null)
-        {
-            Debug.LogError("uiManager is NULL");
-        }
 
         uiManager.UpdateHealth(currHitPoint,HitPoint);
-    
+        uiManager.UpdateMana(currManaPoint, manaPoint);
 
         if (currManaPoint < manaPoint)
         {
