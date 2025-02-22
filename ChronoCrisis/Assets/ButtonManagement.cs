@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class ButtonManagement : MonoBehaviour
 {
+
+    //shop
     public GameObject SkillShopPanel;
     public GameObject WeaponShopPanel;
     public GameObject PotionShopPanel;
     public GameObject ShopPanel;
+
     public void ClickToOpenSkillShopPanel(){
         SkillShopPanel.SetActive(true);
         WeaponShopPanel.SetActive(false);
@@ -27,4 +30,13 @@ public class ButtonManagement : MonoBehaviour
         WeaponShopPanel.SetActive(false);
         PotionShopPanel.SetActive(true);
     }
+
+
+    //Main page
+    public GameObject Setting;
+    public void ClickToOpenSetting(){
+        Setting.SetActive(true);
+    }
+
+
 }

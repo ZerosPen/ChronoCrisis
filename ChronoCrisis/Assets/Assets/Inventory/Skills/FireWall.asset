@@ -9,12 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35d1a3e4fd2fbac4eba160dd40fd49ba, type: 3}
+  m_Script: {fileID: 11500000, guid: d6f6a713710d88741825bad34b36f5c5, type: 3}
   m_Name: FireWall
   m_EditorClassIdentifier: 
-  title: {fileID: 0}
-  type: 0
-  actionType: 0
-  range: {x: 5, y: 4}
-  stackable: 0
   image: {fileID: 191944586, guid: 909245a9034c9b641a0ab6e59668c244, type: 3}
+  stackable: 0
+  itemName: 
+  itemType: 
+  valueItem: 0
+  priceItem: 0
