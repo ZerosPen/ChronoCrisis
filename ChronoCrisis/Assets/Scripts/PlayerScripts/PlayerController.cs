@@ -16,6 +16,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float coolDownDash = 1f;
     [SerializeField] private float manaPoint = 50f;
     [SerializeField] private float manaPointRegen = 5f;
+    public bool levelUp = false;
     public Transform spawnPlayer;
     public int maxDashes = 2; // Allows up to double dash
     public float dashDuration = 0.2f; // Duration of each dash
@@ -109,7 +110,7 @@ public class PlayerController : MonoBehaviour
 
         if (playerExp >= nextMilestone)
         {
-            levelUp();
+            LevelUp();
         }
 
     }
@@ -278,9 +279,14 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public void levelUp()
+    public void LevelUp()
     {
-        
+        levelUp = true;
+        /*
+        if(button) up Int -> maxMP += 5, magicPower += 2.5
+        if(button) up Agi -> movementSpd = movementSpeed + movementSpeed*Agi, atkSpd = atkSpd + atkSpd*Agi/200
+        if(button) up VIT -> maxHP += 5, def ++;
+         */
     }
 
     public void RestoreStatus(float value)

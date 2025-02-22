@@ -29,11 +29,10 @@ public class EnemyController : MonoBehaviour
     private bool isChasing = false;
     private bool isStopped = false;
     private bool isAttacking = false;
-    [SerializeField] private Transform waypointsA;
-    [SerializeField] private Transform waypointsB;
     private Vector2 targetWayPoint;
     private Skill skills;
     [SerializeField] private LayerMask playerLayer;
+    private Vector2 spawnPosition;
 
     void Start()
     {
@@ -42,7 +41,9 @@ public class EnemyController : MonoBehaviour
         {
             player = GameObject.FindGameObjectWithTag("Player")?.transform;
         }
+        spawnPosition = transform.position;
         currentHp = HitPoint;
+
         SetNewTargetPos();
     }
 
@@ -63,17 +64,17 @@ public class EnemyController : MonoBehaviour
         else if (distanceToPlayer <= chaseRange && !isAttacking && !isStopped)
         {
             isChasing = true;
-            isAttacking = false;  // Ensure it is not attacking when chasing
-            ChaseTarget();
+            isAttacking = false;
+            ChaseTarget();  // Move directly toward player
         }
-
         else
         {
             isChasing = false;
             isAttacking = false;
+
             if (!isStopped)
             {
-                MoveTowardTarget();
+                MoveTowardTarget();  // Move randomly within spawn radius
             }
         }
     }
@@ -85,14 +86,14 @@ public class EnemyController : MonoBehaviour
 
     void SetNewTargetPos()
     {
-        if (waypointsA == null || waypointsB == null)
-        {
-            Debug.LogError("Waypoints are not assigned!");
-            return;
-        }
+        float roamRadius = 5f; // Adjust radius as needed
 
-        float randomX = Random.Range(waypointsA.position.x, waypointsB.position.x);
-        float randomY = Random.Range(waypointsA.position.y, waypointsB.position.y);
+        // Get random position within a circle around the spawn point
+        float randomAngle = Random.Range(0f, Mathf.PI * 2); // Random direction
+        float randomDistance = Random.Range(0f, roamRadius); // Random distance within radius
+
+        float randomX = spawnPosition.x + Mathf.Cos(randomAngle) * randomDistance;
+        float randomY = spawnPosition.y + Mathf.Sin(randomAngle) * randomDistance;
 
         targetWayPoint = new Vector2(randomX, randomY);
     }
@@ -110,7 +111,7 @@ public class EnemyController : MonoBehaviour
 
     private void ChaseTarget()
     {
-        if (isChasing == true)
+        if (isChasing)
         {
             Vector2 direction = (player.position - transform.position).normalized;
             transform.position = Vector2.MoveTowards(transform.position, player.position, MovementSpeed * MovementChase * Time.deltaTime);

@@ -11,35 +11,29 @@ public class GameManager : MonoBehaviour
     private float coolDownTime = 30f;
     private int enemyCount = 10;
     public int loopTime = 0;
-    private int worldLevel = 1;
+    private int worldLevel = 1; // Using an integer instead of multiple bools
 
-
-    private bool isWorld1 = true;
-    private bool isWorld2 = false;
-    private bool isWorld3 = false;
-    private bool isWorld4 = false;
-    private bool isWorld5 = false;
-
-    private PlayerController playerController;
-    private EnemyController enemyController;
-    private SpawnManager spawnManager;
+    public PlayerController playerController; // Assign in Inspector
+    public SpawnManager spawnManager; // Assign in Inspector
 
     // Start is called before the first frame update
     void Start()
     {
-        playerController = GetComponent<PlayerController>();
-        enemyController = GetComponent<EnemyController>();
-        spawnManager = GetComponent<SpawnManager>();
-
-
-        if(playerController == null || enemyController == null)
+        if (playerController == null)
         {
-            Debug.LogError("player or enemy is still NULL");
+            playerController = FindObjectOfType<PlayerController>(); // Find dynamically
         }
-        if(spawnManager == null)
+
+        if (spawnManager == null)
         {
-            Debug.LogError("player or enemy is still NULL");
+            spawnManager = FindObjectOfType<SpawnManager>(); // Find dynamically
         }
+
+        if (playerController == null || spawnManager == null)
+        {
+            Debug.LogError("PlayerController or SpawnManager is missing!");
+        }
+        spawnManager.SpawnEnemis(enemyCount, loopTime, worldLevel);
     }
 
     // Update is called once per frame
@@ -47,101 +41,59 @@ public class GameManager : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && canLoop)
         {
-            canLoop = false;
-            loopTime++;
-            spawnManager.ClearEnemies();
-
-            CountUpRespawn();
-
-            playerController.resetPositionPlayer();
-            spawnManager.SpawnEnemis(enemyCount, loopTime, worldLevel);
-            StartCoroutine(coolDownTimeLoop());
+            RestartLoop();
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && playerController.isDead == true)
+        else if (Input.GetKeyDown(KeyCode.Space) && playerController.isDead)
         {
-            loopTime++;
-
-            spawnManager.ClearEnemies();
-
-            CountUpRespawn();
-
-            playerController.resetPositionPlayer();
-            spawnManager.SpawnEnemis(enemyCount, loopTime, worldLevel);
+            RestartLoop();
         }
     }
 
-    public void ObjectiveToComplte()
+    void RestartLoop()
     {
-        if(playerController.enemyKilled == 69)
-        {
-            isChangeWorld = true;
-        }
-        else if(playerController.hasKey == true && isWorld2)
-        {
-            isChangeWorld = true;
-        }
-        else if (playerController.hasKey == true && isWorld3)
-        {
-            isChangeWorld = true;
-        }
-        else if (playerController.hasKey == true && isWorld4)
-        {
-            isChangeWorld = true;
+        canLoop = false;
+        loopTime++;
 
+        spawnManager.ClearEnemies();
+        CountUpRespawn();
+
+        playerController.resetPositionPlayer();
+        spawnManager.SpawnEnemis(enemyCount, loopTime, worldLevel);
+
+        StartCoroutine(CoolDownTimeLoop());
+    }
+
+    public void ObjectiveToComplete()
+    {
+        if (playerController.enemyKilled >= 69 && worldLevel == 1)
+        {
+            isChangeWorld = true;
+        }
+        else if (playerController.hasKey && worldLevel > 1)
+        {
+            isChangeWorld = true;
         }
     }
 
-    public void changeWorld()
+    public void ChangeWorld()
     {
-        if (isChangeWorld && isWorld1)
+        if (isChangeWorld)
         {
-            //load 2 world
-            /*
-             Load.sceen.2
-            isWorld2 = true
-            isChangeWorld = false
-            isWorld1 = false
-             */
-        }
-        if (isChangeWorld && isWorld2)
-        {
-            //load 3 world
-            /*
-             Load.sceen.3
-            isWorld3 = true
-            isChangeWorld = false
-            isWorld2 = false
-             */
+            worldLevel++; // Move to the next world
+            isChangeWorld = false;
+
+            // Load the next world scene (example)
+            Debug.Log("Loading World " + worldLevel);
+            // SceneManager.LoadScene(worldLevel);
         }
     }
 
     void CountUpRespawn()
     {
-        if (isWorld1)
-        {
-            enemyCount = 50 + 15 * 1;
-        }
-        else if (isWorld2)
-        {
-            enemyCount = 50 + 15 * 2;
-
-        }
-        else if (isWorld3)
-        {
-            enemyCount = 50 + 15 * 3;
-        }
-        else if (isWorld4)
-        {
-            enemyCount = 50 + 15 * 4;
-        }
-        else if (isWorld5)
-        {
-            enemyCount = 50 + 15 * 5;
-        }
+        enemyCount = 50 + (15 * worldLevel); // Dynamically scales with world level
     }
 
-
-    IEnumerator coolDownTimeLoop()
+    IEnumerator CoolDownTimeLoop()
     {
         yield return new WaitForSeconds(coolDownTime);
         canLoop = true;

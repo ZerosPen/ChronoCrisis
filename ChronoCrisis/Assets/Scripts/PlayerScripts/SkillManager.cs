@@ -118,6 +118,7 @@ public class SkillManager : MonoBehaviour
             activeSkill.useSkill(playerController.gameObject);
             skillCooldowns[activeSkill] = activeSkill.coolDown;
             playerController.ActiveSkill = false;
+            playerController.currManaPoint -= skillSlots[indexActiveSkill.Value].manaUse;
             StartCoroutine(playerController.CoolDownChangeSkill());
 
             StartCoroutine(ResetAimingAfterCast());
