@@ -16,6 +16,7 @@ public abstract class Items : ScriptableObject
     public string itemType;
     public float valueItem;
     public float priceItem;
+    public GameObject itemPrefab;
 
     public virtual void UseItem(GameObject Player) { }
 }
