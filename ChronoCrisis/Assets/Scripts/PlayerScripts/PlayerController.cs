@@ -8,13 +8,19 @@ public class PlayerController : MonoBehaviour
     [Header("Status")]
     public float HitPoint = 100f;
 
+    public float AtkPoint = 10;
+    public float pointInt = 10;
+    public float pointAgi = 10;
+    public float pointVit = 10;
+
     [SerializeField] private DialogueUI dialogueUI;
-    [SerializeField] private float movementSpeed = 5f;
+    public float movementSpeed = 5f;
+    public float AttackSpeed = 2f;
     [SerializeField] private float RunMulti = 2f;
-    [SerializeField] private float damageATK = 5f;
+    public float damageATK = 5f;
     [SerializeField] private float powerDash = 15f;
     [SerializeField] private float coolDownDash = 1f;
-    [SerializeField] private float manaPoint = 50f;
+    public float manaPoint = 50f;
     [SerializeField] private float manaPointRegen = 5f;
     public bool levelUp = false;
     public Transform spawnPlayer;
@@ -22,7 +28,7 @@ public class PlayerController : MonoBehaviour
     public float dashDuration = 0.2f; // Duration of each dash
     private int dashCount = 0;
     public float magicPower = 50f;
-    private float Def = 20f;
+    public int DefendPoint = 20;
     public float currHitPoint;
     public float currManaPoint;
     private string damageType = "basic";
@@ -35,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("conditon&requimen")]
     private bool isHealing = false;
-    private bool isRestorMana = false;
+    [SerializeField]private bool isRestorMana = false;
     public bool isDead = false;
     private bool isDashing = false;
     private bool canDash = true;
@@ -43,6 +49,7 @@ public class PlayerController : MonoBehaviour
     public bool isSlowed = false;
     private int baseMilestone = 100;
     private int nextMilestone;
+    private bool isTempo = false;
     private Rigidbody2D rb;
     [SerializeField] private LayerMask enemyLayer;
     private SkillManager skillManager;
@@ -275,8 +282,21 @@ public class PlayerController : MonoBehaviour
     #endregion
 
     //recieved item
-    void recievedPowerUp(){
-        
+    public void recievedTempDef(int index){
+        if(index == 0)
+        {
+            Debug.Log("Booster Active");
+            isTempo = true;
+            DefendPoint += 5;
+            StartCoroutine(DeactivePowerUp(0));
+        }
+        if (index == 1)
+        {
+            Debug.Log("Booster Active");
+            isTempo = true;
+            movementSpeed += 5;
+            StartCoroutine(DeactivePowerUp(1));
+        }
     }
 
     public void LevelUp()
@@ -295,15 +315,35 @@ public class PlayerController : MonoBehaviour
 
         if (currManaPoint < manaPoint && isRestorMana)
         {
+            currManaPoint += value * Time.deltaTime; // Multiplied instead of divided
 
-            currManaPoint += value / Time.deltaTime;
-            
+            if (currManaPoint > manaPoint)
+            {
+                currManaPoint = manaPoint; // Clamp to max mana
+            }
+
             Debug.Log("Mana Restored: " + currManaPoint);
         }
 
         isRestorMana = false; // Stops when full
     }
 
+    IEnumerator DeactivePowerUp(int index)
+    {
+        yield return new WaitForSeconds(15f);
+        if(index == 0) 
+        {
+            DefendPoint -= 5;
+            Debug.Log("Booster Deactive");
+            isTempo = false;
+        }
+        if (index == 1)
+        {
+            movementSpeed -= 5;
+            Debug.Log("Booster Dective");
+            isTempo = false;
+        }
+    }
 
     private IEnumerator CoolDownDash()
     {

@@ -4,6 +4,8 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject[] enemyPrefab;
+    public GameObject[] powerUpPrefab;
+    public Transform[] powerUpSpawn;
     public Transform[] spawnPoint;
 
     private List<GameObject> enemies = new List<GameObject>();

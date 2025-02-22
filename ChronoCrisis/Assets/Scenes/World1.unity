@@ -31811,6 +31811,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab:
   - {fileID: 1498908332320200582, guid: 0662513616b261c42a4922bbf3f9dca3, type: 3}
+  powerUpPrefab: []
+  powerUpSpawn: []
   spawnPoint:
   - {fileID: 1353386363193556988}
   - {fileID: 385024526}
@@ -42071,7 +42073,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 3
   m_Sprite: {fileID: 21300000, guid: df02ea02840384f41bc335041f9a6dce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -42092,7 +42094,7 @@ Transform:
   m_GameObject: {fileID: 1896958468}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 10.024803, y: 64.89376, z: 0.10083647}
+  m_LocalPosition: {x: 9.99, y: 63.83, z: 0.10083647}
   m_LocalScale: {x: 0.3, y: 0.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
