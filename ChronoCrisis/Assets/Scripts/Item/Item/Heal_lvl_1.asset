@@ -12,7 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d6f6a713710d88741825bad34b36f5c5, type: 3}
   m_Name: Heal_lvl_1
   m_EditorClassIdentifier: 
+  image: {fileID: 44009453, guid: 18322753c9a099d4d8601800e8a34618, type: 3}
+  stackable: 1
   itemName: Heal_lvl_1
   itemType: RecoverHp
   valueItem: 25
   priceItem: 3
+  itemPrefab: {fileID: 0}

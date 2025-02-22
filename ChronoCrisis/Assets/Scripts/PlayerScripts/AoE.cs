@@ -4,6 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Skills/AoE")]
 public class AoE : Skill
 {
+    
+    public Sprite image;
     public LayerMask enemyLayer;
     public override void useSkill(GameObject Player)
     {

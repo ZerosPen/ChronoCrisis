@@ -19,6 +19,7 @@ MonoBehaviour:
   damageDeal: 10
   manaUse: 10
   damageType: Magic
+  image: {fileID: -1899547141, guid: f437e739982a63b46920d81d7ae317a6, type: 3}
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64

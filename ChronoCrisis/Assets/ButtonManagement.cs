@@ -10,6 +10,7 @@ public class ButtonManagement : MonoBehaviour
     public GameObject WeaponShopPanel;
     public GameObject PotionShopPanel;
     public GameObject ShopPanel;
+    
 
     public void ClickToOpenSkillShopPanel(){
         SkillShopPanel.SetActive(true);
@@ -57,6 +58,13 @@ public class ButtonManagement : MonoBehaviour
         public void ClickToExit(){
         Application.Quit();
     }
+    public GameObject PausePanel;
 
+    public void ClickToOpenPause(){
+        PausePanel.SetActive(true);
+    }
+    public void ClickToClosePause(){
+        PausePanel.SetActive(false);
+    }
 
 }

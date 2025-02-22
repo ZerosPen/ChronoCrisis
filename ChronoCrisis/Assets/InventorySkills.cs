@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 public class InventorySkills : MonoBehaviour
 {
-    [HideInInspector] public Items items;
+    [HideInInspector] public AoE items;
     
     public Image image;
     public TMP_Text countText;
@@ -20,7 +20,7 @@ public class InventorySkills : MonoBehaviour
             image = GetComponent<Image>();
         }
     }
-    public void InitialiseItem(Items newItems){
+    public void InitialiseItem(AoE newItems){
         items = newItems;
         image.sprite = newItems.image;
         RefreshCount();

@@ -60,14 +60,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5698112, g: 0.37306508, b: 0.37306508, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 1073786706, guid: a9f25f99336fcf64fa67922b95b997d7, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -90,8 +90,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   image: {fileID: 2785242525687309605}
-  selectedColor: {r: 0.3254902, g: 0.18039216, b: 0.18039216, a: 1}
-  notSelectedColor: {r: 0, g: 0, b: 0, a: 1}
+  selectedColor: {r: 0.6830188, g: 0.6830188, b: 0.6830188, a: 1}
+  notSelectedColor: {r: 1, g: 1, b: 1, a: 1}
 --- !u!114 &-4186623367282895268
 MonoBehaviour:
   m_ObjectHideFlags: 0
