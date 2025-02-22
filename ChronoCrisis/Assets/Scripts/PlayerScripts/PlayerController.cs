@@ -14,6 +14,7 @@ public class PlayerController : MonoBehaviour
     public float pointVit = 10;
 
     [SerializeField] private DialogueUI dialogueUI;
+    private UIManager uiManager;
     public float movementSpeed = 5f;
     public float AttackSpeed = 2f;
     [SerializeField] private float RunMulti = 2f;
@@ -102,6 +103,16 @@ public class PlayerController : MonoBehaviour
         usingItem1();
         usingItem2();
         usingItem3();
+
+        uiManager = GetComponent<UIManager>();
+        if ( uiManager == null)
+        {
+            Debug.LogError("uiManager is NULL");
+        }
+
+        uiManager.UpdateHealth(currHitPoint,HitPoint);
+    
+
         if (currManaPoint < manaPoint)
         {
             isRestorMana = true;
