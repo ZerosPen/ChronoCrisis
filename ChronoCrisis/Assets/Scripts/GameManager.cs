@@ -33,7 +33,8 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("PlayerController or SpawnManager is missing!");
         }
-        spawnManager.SpawnEnemis(enemyCount, loopTime, worldLevel);
+        spawnManager.SpawnEnemies(enemyCount, loopTime, worldLevel);
+        spawnManager.SpawnPowerUp();
     }
 
     // Update is called once per frame
@@ -45,7 +46,13 @@ public class GameManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space) && playerController.isDead)
         {
-            RestartLoop();
+            loopTime++;
+
+            spawnManager.ClearEnemies();
+            CountUpRespawn();
+
+            playerController.resetPositionPlayer();
+            spawnManager.SpawnEnemies(enemyCount, loopTime, worldLevel);
         }
     }
 
@@ -54,11 +61,13 @@ public class GameManager : MonoBehaviour
         canLoop = false;
         loopTime++;
 
+        spawnManager.ClearPowerUps();
         spawnManager.ClearEnemies();
         CountUpRespawn();
 
         playerController.resetPositionPlayer();
-        spawnManager.SpawnEnemis(enemyCount, loopTime, worldLevel);
+        spawnManager.SpawnEnemies(enemyCount, loopTime, worldLevel);
+        spawnManager.SpawnPowerUp();
 
         StartCoroutine(CoolDownTimeLoop());
     }

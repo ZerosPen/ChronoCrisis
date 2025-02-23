@@ -7,19 +7,48 @@ public class ButtonManagement : MonoBehaviour
 
     //shop
     public GameObject SkillShopPanel;
+    public GameObject itemShopPanel;
     public GameObject WeaponShopPanel;
     public GameObject PotionShopPanel;
     public GameObject ShopPanel;
+    public GameObject StatusPlayer;
+    public GameObject PauseButton;
     
 
-    public void ClickToOpenSkillShopPanel(){
+    public void ClickToOpenShopPanel(){
+        ShopPanel.SetActive(true);
+        StatusPlayer.SetActive(false);
+        PauseButton.SetActive(false);
+    }
+
+    public void ClickOpenitemlShop()
+    {
+        itemShopPanel.SetActive(true);
+        SkillShopPanel.SetActive(false);
+    }
+
+    public void ClickOpenSkillShop()
+    {
         SkillShopPanel.SetActive(true);
-        WeaponShopPanel.SetActive(false);
-        PotionShopPanel.SetActive(false);
+        itemShopPanel.SetActive(false);
     }
-    public void ClickToCloseShop(){
+
+    public void ClickToCloseShopPanel()
+    {
+        if (ShopPanel == null)
+        {
+            Debug.LogWarning("ShopPanel is not assigned in the Inspector!");
+            return;
+        }
+
         ShopPanel.SetActive(false);
+        StatusPlayer.SetActive(true);
+        PauseButton.SetActive(true);
+
+        Debug.Log("ShopPanel closed successfully.");
     }
+
+
     public void ClickToOpenWeaponShopPanel(){
         SkillShopPanel.SetActive(false);
         WeaponShopPanel.SetActive(true);
@@ -67,4 +96,14 @@ public class ButtonManagement : MonoBehaviour
         PausePanel.SetActive(false);
     }
 
+    //MainGame
+    public GameObject PanelProfile;
+    public void ClickOpenToProfile()
+    {
+        PanelProfile.SetActive(true);
+    }
+    public void ClickCloseToProfile()
+    {
+        PanelProfile.SetActive(false);
+    }
 }

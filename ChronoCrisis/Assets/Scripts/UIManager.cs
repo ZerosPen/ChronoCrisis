@@ -16,6 +16,18 @@ public class UIManager : MonoBehaviour
     private PlayerController playerController;
     private GameManager gameManager;
 
+    [Header("StatusProfile")]
+    [SerializeField] private Text LevelValue;
+    [SerializeField] private Text HitpointValue;
+    [SerializeField] private Text ManaValue;
+    [SerializeField] private Text DamageAttackValue;
+    [SerializeField] private Text MagicPowerValue;
+    [SerializeField] private Text Defend;
+    [SerializeField] private Text VitPoint;
+    [SerializeField] private Text IntPoint;
+    [SerializeField] private Text AgiPoint;
+
+
     private void Awake()
     {
         // Find the GameManager & PlayerController correctly
@@ -44,4 +56,24 @@ public class UIManager : MonoBehaviour
         if (hpCurr != null) manaCurr.text = manaNow.ToString();
         if (hpMax != null) manaMax.text = "/" + ManaMax.ToString();
     }
+
+    public void UpdateStatus(int level,float Hitpoint, float mana, float damage, float magicPower, int defend, int VIT, int AGI, int INT)
+    {
+        if (LevelValue != null && HitpointValue != null && ManaValue != null
+            && DamageAttackValue != null && MagicPowerValue != null &&
+            Defend != null && VitPoint != null && AgiPoint != null && IntPoint != null
+            )
+        {
+            LevelValue.text = level.ToString();
+            HitpointValue.text = Hitpoint.ToString();
+            ManaValue.text = mana.ToString();
+            DamageAttackValue.text = damage.ToString();
+            MagicPowerValue.text = magicPower.ToString();
+            Defend.text = defend.ToString();
+            VitPoint.text = VIT.ToString();
+            AgiPoint.text = AGI.ToString();
+            IntPoint.text = INT.ToString();
+        }
+    }
+
 }

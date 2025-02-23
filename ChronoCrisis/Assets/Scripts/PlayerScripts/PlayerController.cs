@@ -9,9 +9,9 @@ public class PlayerController : MonoBehaviour
     public float HitPoint = 100f;
     public int level = 1;
     public float AtkPoint = 10;
-    public float pointInt = 10;
-    public float pointAgi = 10;
-    public float pointVit = 10;
+    public int pointInt = 10;
+    public int pointAgi = 10;
+    public int pointVit = 10;
 
     [SerializeField] private DialogueUI dialogueUI;
     [SerializeField] private UIManager uiManager;
@@ -113,6 +113,7 @@ public class PlayerController : MonoBehaviour
 
         uiManager.UpdateHealth(currHitPoint,HitPoint);
         uiManager.UpdateMana(currManaPoint, manaPoint);
+        uiManager.UpdateStatus(level, HitPoint, manaPoint, damageATK, magicPower ,DefendPoint, pointVit, pointAgi, pointInt);
 
         if (currManaPoint < manaPoint)
         {
