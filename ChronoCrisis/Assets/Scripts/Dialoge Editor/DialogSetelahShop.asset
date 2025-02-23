@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac50de53db3e5824f90d0afc9e35ed19, type: 3}
+  m_Name: DialogSetelahShop
+  m_EditorClassIdentifier: 
+  dialogue:
+  - 'Guide: "Gimana sudah melihat shop?, Di sana kamu bisa membeli skill dan item."'
+  - 'Guide: "Tapi, kamu harus ingat kalau item dan skill yang kamu beli, TIDAK dapat
+    disimpan. karena terkena loop corossion."'
+  - 'Guide: "I''ll give you the Pocket Watch. Be careful, ok?"'
+  responses:
+  - responseText: '*Interact*'
+    dialogueObject: {fileID: 11400000, guid: 8f0bbd3a0509a444a9b64be64ab64759, type: 2}

@@ -52,7 +52,7 @@ public class DialogueUI : MonoBehaviour
             if(i==dialogueObject.Dialogue.Length-1 && dialogueObject.HasResponses) break;
 
             yield return null;
-            yield return new WaitUntil(()=>Input.GetKeyDown(KeyCode.Space));
+            yield return new WaitUntil(()=>Input.GetMouseButton(0));
         }
 
         if(dialogueObject.HasResponses)

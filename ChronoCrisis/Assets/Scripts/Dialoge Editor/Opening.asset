@@ -1,0 +1,38 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac50de53db3e5824f90d0afc9e35ed19, type: 3}
+  m_Name: Opening
+  m_EditorClassIdentifier: 
+  dialogue:
+  - 'Guide: "Hey, you over there! What are you doing in this forest?"'
+  - "I\u2019m from the neighboring city. Something strange is happening\u2026"
+  - People there are suddenly losing their memories.
+  - "Guide: \"I think I might know what\u2019s going on. I only realized it recently
+    myself.\""
+  - 'Guide: " I saw an entity that can control time. It could be the one causing
+    all of this."'
+  - "Guide: \"I think I might know what\u2019s going on. I only realized it recently
+    myself.\""
+  - 'Guide: " I saw an entity that can control time. It could be the one causing
+    all of this."'
+  - If it controls time in a certain range, then how do you remember it?
+  - 'Guide: "I was just outside its range."'
+  - I thought there is another person who is immune to memory loss caused by this
+    time reversal.
+  - "Guide: \"Of course, you're not the only one. Everyone \u201COutside of this
+    World\u201D is immune to the entity\u2019s effects.\""
+  - Outside this world? What do you mea-
+  - 'Guide: *coughs violently*'
+  - "Guide: \"Forget it. Since you\u2019re immune, do you want to fight this entity?\""
+  responses:
+  - responseText: Yes
+    dialogueObject: {fileID: 11400000, guid: 0e4939e7c73825d41a57cb114c4a6ba7, type: 2}

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac50de53db3e5824f90d0afc9e35ed19, type: 3}
+  m_Name: TpkeSpawn
+  m_EditorClassIdentifier: 
+  dialogue:
+  - "What is this? There\u2019s a writing on the back."
+  - What's this? We can go back to the starting point by pressing "space"?
+  - The monsters I had defeated also came back to life.
+  - "Wait, is this what it says on his Pocket Watch? \u201CTimeloop Triggered, WARNING
+    -"
+  - "Monsters from the previous loop will also be brought along - WARNING\u201D\u2026"
+  - Maybe this will be a little dangerous.
+  - WORLD 1 OBJECTIVE CLEAR 69 ENEMY, if DONE, STAGE CLEAR, NEXT WORLD 2
+  responses: []
