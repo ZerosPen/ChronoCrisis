@@ -50,11 +50,12 @@ public class PlayerController : MonoBehaviour
     public bool ActiveSkill = false;
     public bool isSlowed = false;
     private int baseMilestone = 100;
-    private int nextMilestone;
+    public int nextMilestone;
     private bool isTempo = false;
     private Rigidbody2D rb;
     [SerializeField] private LayerMask enemyLayer;
     private SkillManager skillManager;
+    private SaveManager SaveManager;
     [SerializeField] InventoryManager inventoryManager;
 
 
@@ -77,10 +78,11 @@ public class PlayerController : MonoBehaviour
 
 
     void Start()
-    {
+    {   
         transform.position =  spawnPlayer.transform.position;
         rb = GetComponent<Rigidbody2D>();
         skillManager = GetComponent<SkillManager>();
+        SaveManager = GetComponent<SaveManager>();
         currHitPoint = HitPoint;
         currManaPoint = manaPoint;
 
@@ -94,10 +96,12 @@ public class PlayerController : MonoBehaviour
         }
 
         nextMilestone = baseMilestone;
+        
     }
 
     void Update()
     {
+       SaveManager.instance.Save();
        // if (dialogueUI.IsOpen) return;
 
         movement();

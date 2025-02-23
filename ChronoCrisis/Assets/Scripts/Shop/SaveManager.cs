@@ -11,13 +11,37 @@ public class SaveManager : MonoBehaviour
 
     public int currentItem;
     public int money;
-    public bool[]itemUnlock = new bool[46] {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false};
+    
+    
+    private GameManager gameManager;
+    private PlayerController playerController;
+    public int level;
+    public int HitPoint;
+    public int Mana;
+    public int DamageAttack;
+    public int MagicPower;
+    public int Defend;
+    public int VitPoint;
+    public int IntPoint;
+    public int AgiPoint;
+    public int Exp;
+    public int MileStone;
+    
+    public bool[]itemUnlock = new bool[5] ;
     private void Awake()
     {
         if(instance != null && instance != this)
             Destroy(gameObject);
         else
             instance = this;
+
+        gameManager = FindObjectOfType<GameManager>();
+        playerController = FindObjectOfType<PlayerController>();
+
+        if (gameManager == null || playerController == null)
+        {
+            Debug.LogError("GameManager or PlayerController is NULL!");
+        }
         
         DontDestroyOnLoad(gameObject);
         Load();
@@ -29,7 +53,18 @@ public class SaveManager : MonoBehaviour
         {
             currentItem = currentItem,
             money = money,
-            itemUnlock = itemUnlock
+            itemUnlock = itemUnlock,
+            level = level,
+            HitPoint = HitPoint,
+            Mana =  Mana,
+            DamageAttack = DamageAttack,
+            MagicPower = MagicPower,
+            Defend = Defend,
+            VitPoint = VitPoint,
+            IntPoint = IntPoint,
+            AgiPoint = AgiPoint,
+            Exp = Exp,
+            MileStone = MileStone   
         };
 
         string json = JsonUtility.ToJson(data);
@@ -51,7 +86,18 @@ public class SaveManager : MonoBehaviour
 
         currentItem = data.currentItem;
         money = data.money;
-        itemUnlock = data.itemUnlock ?? new bool[46];
+        itemUnlock = data.itemUnlock ?? new bool[5];
+        level = data.level;
+        HitPoint = data.HitPoint;
+        Mana =  data.Mana;
+        DamageAttack = data.DamageAttack;
+        MagicPower = data.MagicPower;
+        Defend = data.Defend;
+        VitPoint = data.VitPoint;
+        IntPoint = data.IntPoint;
+        AgiPoint = data.AgiPoint;
+        Exp = data.Exp;
+        MileStone = data.MileStone;        
     }
 
 }
@@ -62,4 +108,15 @@ class PlayerData_Storage
     public int currentItem;
     public int money;
     public bool[] itemUnlock;
+    public int level;
+    public int HitPoint;
+    public int Mana;
+    public int DamageAttack;
+    public int MagicPower;
+    public int Defend;
+    public int VitPoint;
+    public int IntPoint;
+    public int AgiPoint;
+    public int Exp;
+    public int MileStone;
 }
