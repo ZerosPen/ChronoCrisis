@@ -11,14 +11,16 @@ public class GameManager : MonoBehaviour
     private float coolDownTime = 30f;
     private int enemyCount = 10;
     public int loopTime = 0;
-    private int worldLevel = 1; // Using an integer instead of multiple bools
+    public int worldLevel = 1; // Using an integer instead of multiple bools
 
     public PlayerController playerController; // Assign in Inspector
     public SpawnManager spawnManager; // Assign in Inspector
+    private SceneController sceneController;
 
     // Start is called before the first frame update
     void Start()
     {
+        sceneController = GetComponent<SceneController>();
         if (playerController == null)
         {
             playerController = FindObjectOfType<PlayerController>(); // Find dynamically
@@ -78,10 +80,12 @@ public class GameManager : MonoBehaviour
         {
             isChangeWorld = true;
             worldLevel = 2;
+            ChangeWorld();
         }
         else if (playerController.hasKey && worldLevel > 1)
         {
             isChangeWorld = true;
+            ChangeWorld();
         }
     }
 
@@ -90,6 +94,7 @@ public class GameManager : MonoBehaviour
         if (isChangeWorld)
         {
             worldLevel++; // Move to the next world
+            sceneController.ChangeScene(worldLevel);
             isChangeWorld = false;
 
             // Load the next world scene (example)

@@ -23,6 +23,7 @@ public class SaveManager : MonoBehaviour
     public int AgiPoint;
     public int Exp;
     public int MileStone;
+    public int worldLevel;
 
     public bool[] itemUnlock = new bool[5];
 
@@ -64,6 +65,12 @@ public class SaveManager : MonoBehaviour
     public void Save()
     {
         string path = Application.persistentDataPath + "/playerInfo.json";
+
+        if (gameManager != null)
+        {
+            worldLevel = gameManager.worldLevel; // Save world level
+        }
+
         PlayerData_Storage data = new PlayerData_Storage
         {
             currentItem = currentItem,
@@ -79,13 +86,12 @@ public class SaveManager : MonoBehaviour
             IntPoint = IntPoint,
             AgiPoint = AgiPoint,
             Exp = Exp,
-            MileStone = MileStone
+            MileStone = MileStone,
+            worldLevel = worldLevel // Save world level
         };
 
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(path, json);
-
-        Debug.Log("Game saved: " + json);
     }
 
     public void Load()
@@ -175,4 +181,6 @@ public class PlayerData_Storage
     public int AgiPoint;
     public int Exp;
     public int MileStone;
+    public int worldLevel; // Add world level
 }
+
