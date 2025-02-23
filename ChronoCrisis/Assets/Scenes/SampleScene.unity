@@ -347,13 +347,7 @@ MonoBehaviour:
   - {fileID: 402680170}
   - {fileID: 427579913}
   - {fileID: 2010477608}
-  itemSlots:
-  - {fileID: 833862528}
-  - {fileID: 752203039}
-  - {fileID: 981108670}
   inventorySkillsPrefab: {fileID: 238680822019810631, guid: 8e85d4610f2fbc748b73cd79c0523cf5, type: 3}
-  inventoryItemssPrefab: {fileID: 3335115145045220059, guid: f21417b9c9946464f8c8f67b2e49418c, type: 3}
-  maxStackedItems: 69
 --- !u!4 &163556833
 Transform:
   m_ObjectHideFlags: 0
@@ -1458,11 +1452,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   HitPoint: 100
+  level: 1
   AtkPoint: 10
   pointInt: 10
   pointAgi: 10
   pointVit: 10
   dialogueUI: {fileID: 1546296715}
+  uiManager: {fileID: 0}
   movementSpeed: 5
   AttackSpeed: 2
   RunMulti: 2
@@ -1481,14 +1477,17 @@ MonoBehaviour:
   currManaPoint: 0
   playerExp: 0
   enemyKilled: 0
+  coins: 0
   hasKey: 0
   isRestorMana: 0
   isDead: 0
   ActiveSkill: 0
   isSlowed: 0
+  nextMilestone: 0
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
+  inventoryManager: {fileID: 0}
   moveLeft: 97
   moveRight: 100
   moveUp: 119
@@ -1668,33 +1667,11 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6066460168124711697, guid: f879347c78275334aa546e92e65f2c5b, type: 3}
   m_PrefabInstance: {fileID: 1316849503}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &752203039 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -3807245661048605836, guid: f879347c78275334aa546e92e65f2c5b, type: 3}
-  m_PrefabInstance: {fileID: 1316849503}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3ab56424db87f46a0fefce6b0b16b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &833862527 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6066460168124711697, guid: f879347c78275334aa546e92e65f2c5b, type: 3}
   m_PrefabInstance: {fileID: 1520949899}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &833862528 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -3807245661048605836, guid: f879347c78275334aa546e92e65f2c5b, type: 3}
-  m_PrefabInstance: {fileID: 1520949899}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3ab56424db87f46a0fefce6b0b16b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &885283166 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 6865608256848087715, guid: d7b4753acd5ccab46864593d68c1cf1e, type: 3}
@@ -1716,17 +1693,6 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6066460168124711697, guid: f879347c78275334aa546e92e65f2c5b, type: 3}
   m_PrefabInstance: {fileID: 2039069534}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &981108670 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: -3807245661048605836, guid: f879347c78275334aa546e92e65f2c5b, type: 3}
-  m_PrefabInstance: {fileID: 2039069534}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be3ab56424db87f46a0fefce6b0b16b3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1013388201
 GameObject:
   m_ObjectHideFlags: 0
@@ -2082,12 +2048,15 @@ MonoBehaviour:
   AttackCoolDown: 5
   physicalRes: 20
   magicRes: 20
+  baseExp: 25
+  baseDrop: 2
   currentHp: 0
   currentMagic: 0
   currentAttack: 0
   currentPhysicalRes: 0
   currentMagicRes: 0
   player: {fileID: 745163482}
+  playerController: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -2591,14 +2560,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   inventoryManager: {fileID: 163556832}
-  itemsToPickup:
-  - {fileID: 11400000, guid: 9cc3b8ffd95d93c43916d097280414b1, type: 2}
-  - {fileID: 11400000, guid: feb4f84ce774ed14bbda855996d7fb44, type: 2}
-  - {fileID: 11400000, guid: 38232144c6f4c6641a646a222bbefb57, type: 2}
-  - {fileID: 11400000, guid: decba8fefbb0f3249aec33c3bd81f0f5, type: 2}
-  - {fileID: 11400000, guid: 5ec8d3a90af1198499f8c68f58de6c57, type: 2}
-  itemsToPickup2:
-  - {fileID: 11400000, guid: 5ec8d3a90af1198499f8c68f58de6c57, type: 2}
+  skillManager: {fileID: 0}
+  skillsToPurchase: []
 --- !u!1 &1477084216
 GameObject:
   m_ObjectHideFlags: 0
@@ -3480,12 +3443,15 @@ MonoBehaviour:
   AttackCoolDown: 5
   physicalRes: 20
   magicRes: 20
+  baseExp: 25
+  baseDrop: 2
   currentHp: 0
   currentMagic: 0
   currentAttack: 0
   currentPhysicalRes: 0
   currentMagicRes: 0
   player: {fileID: 745163482}
+  playerController: {fileID: 0}
   playerLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -4388,6 +4354,10 @@ MonoBehaviour:
   darkCageBulletPrefab: {fileID: 4779778375333120945, guid: 61d7e45fcf1125d4a8668af403b18e1a, type: 3}
   missilePrefab: {fileID: 4779778375333120945, guid: 61d7e45fcf1125d4a8668af403b18e1a, type: 3}
   monsterPrefab: {fileID: 0}
+  aoeIndicatorPrefab: {fileID: 0}
+  teleportEffectPrefab: {fileID: 0}
+  staff: {fileID: 0}
+  animator: {fileID: 0}
   aoeSpawnPoints: []
   bulletSpawnPoints: []
   spearSpeedSlow: 5
