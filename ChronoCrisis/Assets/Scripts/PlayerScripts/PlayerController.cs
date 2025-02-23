@@ -54,6 +54,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private LayerMask enemyLayer;
     private SkillManager skillManager;
+    [SerializeField] InventoryManager inventoryManager;
 
 
     [Header("KeyBlind")]
@@ -225,6 +226,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(Skill1))
         {
             ActiveSkill = true;
+            inventoryManager.ChangeSelectedSlot(0);
             skillManager.HandleSkillSwitching(0);
         }
     }
@@ -234,6 +236,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(Skill2))
         {
             ActiveSkill = true;
+            inventoryManager.ChangeSelectedSlot(1);
             skillManager.HandleSkillSwitching(1);
         }
     }
@@ -243,6 +246,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(Skill3))
         {
             ActiveSkill = true;
+            inventoryManager.ChangeSelectedSlot(2);
             skillManager.HandleSkillSwitching(2);
         }
     }
@@ -252,6 +256,7 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(Skill4))
         {
             ActiveSkill = true;
+            inventoryManager.ChangeSelectedSlot(3);
             skillManager.HandleSkillSwitching(3);
         }
     }

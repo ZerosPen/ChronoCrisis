@@ -22,38 +22,36 @@ public class SaveManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         Load();
     }
-    public void Load()
-    {
-        if (File.Exists(Application.persistentDataPath + "/playerInfo.dat"))
-        {
-            BinaryFormatter bf = new BinaryFormatter();
-            FileStream file = File.Open(Application.persistentDataPath + "/playerInfo.dat", FileMode.Open);
-            PlayerData_Storage data = (PlayerData_Storage)bf.Deserialize(file);
-
-            currentItem = data.currentItem;
-            money = data.money;
-            itemUnlock = data.itemUnlock;
-
-            if(data.itemUnlock==null){
-                itemUnlock = new bool[46];
-                
-            }
-
-            file.Close();
-        }
-    }
     public void Save()
     {
-        BinaryFormatter bf = new BinaryFormatter();
-        FileStream file = File.Create(Application.persistentDataPath + "/playerInfo.dat");
-        PlayerData_Storage data = new PlayerData_Storage();
+        string path = Application.persistentDataPath + "/playerInfo.json";
+        PlayerData_Storage data = new PlayerData_Storage
+        {
+            currentItem = currentItem,
+            money = money,
+            itemUnlock = itemUnlock
+        };
 
-        data.currentItem = currentItem;
-        data.money = money;
-        data.itemUnlock = itemUnlock;
+        string json = JsonUtility.ToJson(data);
+        File.WriteAllText(path, json);
+    }
 
-        bf.Serialize(file, data);
-        file.Close();
+    public void Load()
+    {
+        string path = Application.persistentDataPath + "/playerInfo.json";
+
+        if (!File.Exists(path))
+        {
+            Debug.LogWarning("Save file not found.");
+            return;
+        }
+
+        string json = File.ReadAllText(path);
+        PlayerData_Storage data = JsonUtility.FromJson<PlayerData_Storage>(json);
+
+        currentItem = data.currentItem;
+        money = data.money;
+        itemUnlock = data.itemUnlock ?? new bool[46];
     }
 
 }

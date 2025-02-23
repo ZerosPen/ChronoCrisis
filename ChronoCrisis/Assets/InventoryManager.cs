@@ -11,25 +11,10 @@ public class InventoryManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            ChangeSelectedSlot (0);
-        }
-        else if (Input.GetKeyDown(KeyCode.E))
-        {
-            ChangeSelectedSlot (1);
-        }
-        else if (Input.GetKeyDown(KeyCode.R))
-        {
-            ChangeSelectedSlot (2);
-        }
-        else if (Input.GetKeyDown(KeyCode.T))
-        {
-            ChangeSelectedSlot (3);
-        }
+
     }
 
-    void ChangeSelectedSlot(int newValue)
+    public void ChangeSelectedSlot(int newValue)
     {
         if(selectedSlot >=0)
         {
