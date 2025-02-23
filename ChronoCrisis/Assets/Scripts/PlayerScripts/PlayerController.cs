@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody2D rb;
     [SerializeField] private LayerMask enemyLayer;
     private SkillManager skillManager;
-    private SaveManager SaveManager;
+    private SaveManager saveManager;
     [SerializeField] InventoryManager inventoryManager;
 
 
@@ -82,7 +82,7 @@ public class PlayerController : MonoBehaviour
         transform.position =  spawnPlayer.transform.position;
         rb = GetComponent<Rigidbody2D>();
         skillManager = GetComponent<SkillManager>();
-        SaveManager = GetComponent<SaveManager>();
+        saveManager = GetComponent<SaveManager>();
         currHitPoint = HitPoint;
         currManaPoint = manaPoint;
 
@@ -118,6 +118,9 @@ public class PlayerController : MonoBehaviour
         uiManager.UpdateHealth(currHitPoint,HitPoint);
         uiManager.UpdateMana(currManaPoint, manaPoint);
         uiManager.UpdateStatus(level, HitPoint, manaPoint, damageATK, magicPower ,DefendPoint, pointVit, pointAgi, pointInt);
+
+        SaveManager.instance.UpdatePlayerData();
+        SaveManager.instance.Save();
 
         if (currManaPoint < manaPoint)
         {

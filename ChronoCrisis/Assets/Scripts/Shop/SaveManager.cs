@@ -1,20 +1,17 @@
-using System.Collections;
-using System.Collections.Generic;
-using System;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.IO;
 
 public class SaveManager : MonoBehaviour
 {
-    public static SaveManager instance {get; private set;}
+    public static SaveManager instance { get; private set; }
 
     public int currentItem;
     public int money;
-    
-    
+
     private GameManager gameManager;
     private PlayerController playerController;
+
     public int level;
     public int HitPoint;
     public int Mana;
@@ -26,26 +23,44 @@ public class SaveManager : MonoBehaviour
     public int AgiPoint;
     public int Exp;
     public int MileStone;
-    
-    public bool[]itemUnlock = new bool[5] ;
+
+    public bool[] itemUnlock = new bool[5];
+
     private void Awake()
     {
-        if(instance != null && instance != this)
+        if (instance != null && instance != this)
+        {
             Destroy(gameObject);
-        else
-            instance = this;
+            return;
+        }
+        instance = this;
+        DontDestroyOnLoad(gameObject);
 
+        SceneManager.sceneLoaded += OnSceneLoaded; // Listen for scene changes
+    }
+
+    private void Start()
+    {
+        Load();
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        FindPlayerAndGameManager(); // Find references again
+        Load(); // Reload data
+    }
+
+    private void FindPlayerAndGameManager()
+    {
         gameManager = FindObjectOfType<GameManager>();
         playerController = FindObjectOfType<PlayerController>();
 
-        if (gameManager == null || playerController == null)
+        if (playerController == null)
         {
-            Debug.LogError("GameManager or PlayerController is NULL!");
+            Debug.LogError("PlayerController not found after scene load!");
         }
-        
-        DontDestroyOnLoad(gameObject);
-        Load();
     }
+
     public void Save()
     {
         string path = Application.persistentDataPath + "/playerInfo.json";
@@ -56,7 +71,7 @@ public class SaveManager : MonoBehaviour
             itemUnlock = itemUnlock,
             level = level,
             HitPoint = HitPoint,
-            Mana =  Mana,
+            Mana = Mana,
             DamageAttack = DamageAttack,
             MagicPower = MagicPower,
             Defend = Defend,
@@ -64,11 +79,13 @@ public class SaveManager : MonoBehaviour
             IntPoint = IntPoint,
             AgiPoint = AgiPoint,
             Exp = Exp,
-            MileStone = MileStone   
+            MileStone = MileStone
         };
 
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(path, json);
+
+        Debug.Log("Game saved: " + json);
     }
 
     public void Load()
@@ -89,7 +106,7 @@ public class SaveManager : MonoBehaviour
         itemUnlock = data.itemUnlock ?? new bool[5];
         level = data.level;
         HitPoint = data.HitPoint;
-        Mana =  data.Mana;
+        Mana = data.Mana;
         DamageAttack = data.DamageAttack;
         MagicPower = data.MagicPower;
         Defend = data.Defend;
@@ -97,13 +114,52 @@ public class SaveManager : MonoBehaviour
         IntPoint = data.IntPoint;
         AgiPoint = data.AgiPoint;
         Exp = data.Exp;
-        MileStone = data.MileStone;        
+        MileStone = data.MileStone;
+
+        // Apply loaded data to player
+        if (playerController != null)
+        {
+            playerController.level = level;
+            playerController.HitPoint = HitPoint;
+            playerController.manaPoint = Mana;
+            playerController.damageATK = DamageAttack;
+            playerController.magicPower = MagicPower;
+            playerController.DefendPoint = Defend;
+            playerController.pointVit = VitPoint;
+            playerController.pointInt = IntPoint;
+            playerController.pointAgi = AgiPoint;
+            playerController.playerExp = Exp;
+            playerController.nextMilestone = MileStone;
+            playerController.coins = money;
+        }
     }
 
+    public void UpdatePlayerData()
+    {
+        if (playerController == null)
+        {
+            Debug.LogWarning("PlayerController is NULL. Skipping data update.");
+            return;
+        }
+
+        level = playerController.level;
+        HitPoint = (int)playerController.HitPoint;
+        Mana = (int)playerController.manaPoint;
+        DamageAttack = (int)playerController.damageATK;
+        MagicPower = (int)playerController.magicPower;
+        Defend = playerController.DefendPoint;
+        VitPoint = playerController.pointVit;
+        IntPoint = playerController.pointInt;
+        AgiPoint = playerController.pointAgi;
+        Exp = playerController.playerExp;
+        MileStone = playerController.nextMilestone;
+        money = playerController.coins;
+    }
 }
 
-[SerializeField]
-class PlayerData_Storage
+
+[System.Serializable]
+public class PlayerData_Storage
 {
     public int currentItem;
     public int money;
