@@ -5,7 +5,11 @@ using TMPro;
 
 public class MoneyAdd : MonoBehaviour
 {
-
+    public GameObject BuyFireball;
+    public void BuyFireballPanel(){
+        BuyFireball.SetActive(false);
+        SaveManager.instance.money -= 7;
+    }
     // Update is called once per frame
     private void Update()
     {
