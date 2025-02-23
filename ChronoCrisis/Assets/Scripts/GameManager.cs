@@ -68,6 +68,7 @@ public class GameManager : MonoBehaviour
         if (playerController.enemyKilled >= 69 && worldLevel == 1)
         {
             isChangeWorld = true;
+            worldLevel = 2;
         }
         else if (playerController.hasKey && worldLevel > 1)
         {

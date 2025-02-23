@@ -67,6 +67,36 @@ public class SkillManager : MonoBehaviour
         }
     }
 
+    public void AddSkill(Skill newSkill) 
+    {
+
+        if (newSkill == null)
+        {
+            Debug.LogError("Attempted to add a null skill.");
+            return;
+        }
+
+        for (int i = 0; i < skillSlots.Length; i++)
+        {
+            if (skillSlots[i] == newSkill)
+            {
+                Debug.Log("Skill already exists in the skill slots.");
+                return;
+            }
+        }
+
+        for (int i = 0; i < skillSlots.Length; i++)
+        {
+            if (skillSlots[i] == null)
+            {
+                skillSlots[i] = newSkill;
+                skillCooldowns[newSkill] = 0; // Initialize cooldown tracking
+                Debug.Log($"Skill {newSkill.skillName} added to slot {i}.");
+                return;
+            }
+        }
+        Debug.Log("No available skill slots!");
+    }
 
     public void HandleSkillSwitching(int indexSkill)
     {

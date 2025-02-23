@@ -7,7 +7,7 @@ public class PlayerController : MonoBehaviour
 {
     [Header("Status")]
     public float HitPoint = 100f;
-
+    public int level = 1;
     public float AtkPoint = 10;
     public float pointInt = 10;
     public float pointAgi = 10;
@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     public int playerExp = 0;
     public int enemyKilled = 0;
     private float attackRange = 5f;
+    public int coins = 0;
     private Vector2 directionDash;
 
     public bool hasKey = false;
@@ -124,11 +125,6 @@ public class PlayerController : MonoBehaviour
         {
             Interactable?.Interact(this);
             
-        }
-
-        if (playerExp >= nextMilestone)
-        {
-            LevelUp();
         }
 
     }
@@ -314,14 +310,20 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    public void LevelUp()
+    public void reciveExp(int exp)
     {
-        levelUp = true;
-        /*
-        if(button) up Int -> maxMP += 5, magicPower += 2.5
-        if(button) up Agi -> movementSpd = movementSpeed + movementSpeed*Agi, atkSpd = atkSpd + atkSpd*Agi/200
-        if(button) up VIT -> maxHP += 5, def ++;
-         */
+        playerExp += exp;
+
+        if(playerExp >= baseMilestone)
+        {
+            levelUp = true;
+            /*
+            if(button) up Int -> maxMP += 5, magicPower += 2.5
+            if(button) up Agi -> movementSpd = movementSpeed + movementSpeed*Agi, atkSpd = atkSpd + atkSpd*Agi/200
+            if(button) up VIT -> maxHP += 5, def ++;
+             */
+            baseMilestone += 15*(level - 1);
+        }
     }
 
     public void RestoreStatus(float value)

@@ -16,6 +16,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float AttackCoolDown = 5f;
     [SerializeField] private float physicalRes = 20;
     [SerializeField] private float magicRes = 20;
+    public int baseExp = 25;
+    public int baseDrop = 2;
     public float currentHp;
     public float currentMagic;
     public float currentAttack;
@@ -25,22 +27,41 @@ public class EnemyController : MonoBehaviour
 
     [Header("conditon & requimen")]
     [SerializeField] private Transform player;
+    [SerializeField] private PlayerController playerController;
     private Rigidbody2D rb;
     private bool isChasing = false;
     private bool isStopped = false;
     private bool isAttacking = false;
     private Vector2 targetWayPoint;
     private Skill skills;
+    private MoneyAdd moneyAdd;
     [SerializeField] private LayerMask playerLayer;
     private Vector2 spawnPosition;
 
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+
         if (player == null)
         {
-            player = GameObject.FindGameObjectWithTag("Player")?.transform;
+            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+            if (playerObj != null)
+            {
+                player = playerObj.transform;
+                playerController = playerObj.GetComponent<PlayerController>();
+            }
+            else
+            {
+                Debug.LogError("Player GameObject not found in the scene!");
+            }
         }
+
+        moneyAdd = FindObjectOfType<MoneyAdd>();
+        if (moneyAdd == null)
+        {
+            Debug.LogError("MoneyAdd component not found!");
+        }
+
         spawnPosition = transform.position;
         currentHp = HitPoint;
 
@@ -82,6 +103,8 @@ public class EnemyController : MonoBehaviour
     public void ScalingUp(int loop, int worldLevel)
     {
         currentAttack = currentAttack + (0.2f /  loop) + (2.5f/worldLevel);
+        baseExp = baseExp + (5 * loop);
+        baseDrop = baseDrop + loop +  (2 * worldLevel - 1);
     }
 
     void SetNewTargetPos()
@@ -196,7 +219,13 @@ public class EnemyController : MonoBehaviour
     private void EnemyDead()
     {
         isStopped = true;
+        
+        playerController.reciveExp(baseExp);
 
+        int drop = Random.Range(1, baseDrop);
+
+        moneyAdd.AddMoney(drop);
+        Debug.Log($"Money : {drop}");
         // Ensure Rigidbody stops moving before disabling the object
         if (rb != null)
         {
