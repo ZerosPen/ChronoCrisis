@@ -16,9 +16,8 @@ MonoBehaviour:
   - "What is this? There\u2019s a writing on the back."
   - What's this? We can go back to the starting point by pressing "space"?
   - The monsters I had defeated also came back to life.
-  - "Wait, is this what it says on his Pocket Watch? \u201CTimeloop Triggered, WARNING
-    -"
-  - "Monsters from the previous loop will also be brought along - WARNING\u201D\u2026"
+  - "Wait, is this what it says on his Pocket Watch? \u201CTimeloop Triggered\""
+  - "\"WARNING -Monsters from the previous loop will also be brought along - WARNING\u201D\u2026"
   - Maybe this will be a little dangerous.
   - WORLD 1 OBJECTIVE CLEAR 69 ENEMY, if DONE, STAGE CLEAR, NEXT WORLD 2
   responses: []
