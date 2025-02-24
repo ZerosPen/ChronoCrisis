@@ -7641,6 +7641,7 @@ MonoBehaviour:
   worldLevel: 1
   playerController: {fileID: 861128057}
   spawnManager: {fileID: 547388485}
+  NPCLoop5: {fileID: 1930842665}
 --- !u!4 &101558471
 Transform:
   m_ObjectHideFlags: 0
@@ -37161,7 +37162,6 @@ MonoBehaviour:
   - {fileID: 1353386363193556988}
   - {fileID: 385024526}
   - {fileID: 1600508964}
-  - {fileID: 659387112}
   - {fileID: 230123092}
   - {fileID: 1396007174}
   - {fileID: 607799914}
@@ -45330,80 +45330,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1001 &659387111
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 1414497664}
-    m_Modifications:
-    - target: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0.096
-      objectReference: {fileID: 0}
-    - target: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -0.4166
-      objectReference: {fileID: 0}
-    - target: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8460037965717322410, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_SortingOrder
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 9079778658502788239, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-      propertyPath: m_Name
-      value: EnemySpawn (3)
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
---- !u!4 &659387112 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1742305585968034026, guid: f3d0a9a2f7c5970419f8d79027e70336, type: 3}
-  m_PrefabInstance: {fileID: 659387111}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &660735829
 GameObject:
   m_ObjectHideFlags: 0
@@ -62892,7 +62818,7 @@ MonoBehaviour:
   PotionShopPanel: {fileID: 0}
   ShopPanel: {fileID: 0}
   StatusPlayer: {fileID: 0}
-  PauseButton: {fileID: 1047577339}
+  PauseButton: {fileID: 127189027}
   Setting: {fileID: 0}
   About: {fileID: 0}
   Exit: {fileID: 0}
@@ -95842,7 +95768,6 @@ Transform:
   - {fileID: 1353386363193556988}
   - {fileID: 385024526}
   - {fileID: 1600508964}
-  - {fileID: 659387112}
   - {fileID: 230123092}
   - {fileID: 1396007174}
   - {fileID: 607799914}
@@ -127042,13 +126967,14 @@ GameObject:
   - component: {fileID: 1930842668}
   - component: {fileID: 1930842667}
   - component: {fileID: 1930842666}
+  - component: {fileID: 1930842671}
   m_Layer: 7
   m_Name: NPC (1)
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1930842666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -127230,6 +127156,23 @@ Transform:
   - {fileID: 328673223}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1930842671
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1930842665}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb981df339f968843b07e39b88ed6562, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loopTime: 0
+  worldLevel: 1
+  playerController: {fileID: 0}
+  spawnManager: {fileID: 0}
+  NPCLoop5: {fileID: 0}
 --- !u!1 &1930864461
 GameObject:
   m_ObjectHideFlags: 0

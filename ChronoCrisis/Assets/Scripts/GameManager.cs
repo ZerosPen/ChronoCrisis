@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public PlayerController playerController; // Assign in Inspector
     public SpawnManager spawnManager; // Assign in Inspector
     private SceneController sceneController;
+    public GameObject NPCLoop5;
 
     // Start is called before the first frame update
     void Start()
@@ -42,6 +43,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        ToUnlockNPCWorld2();
         if (Input.GetKeyDown(KeyCode.Space) && canLoop)
         {
             RestartLoop();
@@ -55,6 +57,16 @@ public class GameManager : MonoBehaviour
 
             playerController.resetPositionPlayer();
             spawnManager.SpawnEnemies(enemyCount, loopTime, worldLevel);
+
+        
+
+
+
+        }
+    }
+    public void ToUnlockNPCWorld2(){
+        if(loopTime>=5){
+            NPCLoop5.SetActive(true);
         }
     }
 
