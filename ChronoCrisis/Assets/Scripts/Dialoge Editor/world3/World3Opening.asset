@@ -17,4 +17,6 @@ MonoBehaviour:
   - I will be waiting for you in the castle -Guide
   - "A broken staff? I wonder who it belongs to\u2026"
   - '"THE LOCATION IS MARKED ON YOUR MAP. IT IS LEFT BOTTOM. "'
-  responses: []
+  responses:
+  - responseText: Lets Goo!!
+    dialogueObject: {fileID: 0}

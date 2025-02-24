@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
+using Unity.VisualScripting;
 
 public class BossControl : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class BossControl : MonoBehaviour
     public GameObject teleportEffectPrefab;
     public GameObject staff;
     public Animator animator;
+
+    private bool hasTriggeredPhaseTwoDialog = false;
     
     
     public Transform[] aoeSpawnPoints, bulletSpawnPoints;
@@ -55,7 +59,10 @@ public class BossControl : MonoBehaviour
             {
                 isPhaseOne = false;
                 StopAllCoroutines();
-                TriggerPhaseTwoDialog();
+                if(!hasTriggeredPhaseTwoDialog){
+                    TriggerPhaseTwoDialog();
+                }
+                
             }
         }
         else
@@ -92,15 +99,19 @@ public class BossControl : MonoBehaviour
         
     }
 
-    void TriggerPhaseTwoDialog()
-    {
-        dialogueUI.ShowDialogue(bossPhase2Dialogue);
-        StartCoroutine(WaitForDialogue());
-    }
+void TriggerPhaseTwoDialog()
+{
+    if (hasTriggeredPhaseTwoDialog) return; // Prevent it from triggering again
+    hasTriggeredPhaseTwoDialog = true;
+    Debug.Log("Triggering Phase Two Dialogue");
+    dialogueUI.ShowDialogue(bossPhase2Dialogue);
+    StartCoroutine(WaitForDialogue());
+}
 
     IEnumerator WaitForDialogue()
     {
         yield return new WaitUntil(() => !dialogueUI.IsOpen);
+        Debug.Log("Dialogue closed, entering Phase Two");
         EnterPhaseTwo();
     }
 
