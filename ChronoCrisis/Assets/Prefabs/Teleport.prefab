@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8813527817947614080}
   - component: {fileID: 7892764619879243510}
   - component: {fileID: -3694069287356339938}
+  - component: {fileID: -4385541762573601867}
   m_Layer: 0
   m_Name: Teleport
   m_TagString: Untagged
@@ -120,3 +121,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lifetime: 1
+--- !u!114 &-4385541762573601867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8103328388487601598}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c750d0d5174d7d84c9890af9ac4f7001, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 0
+  Playerlayer:
+    serializedVersion: 2
+    m_Bits: 0

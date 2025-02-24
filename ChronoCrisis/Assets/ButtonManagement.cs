@@ -13,6 +13,7 @@ public class ButtonManagement : MonoBehaviour
     public GameObject ShopPanel;
     public GameObject StatusPlayer;
     public GameObject PauseButton;
+    public SceneController sceneController;
     
 
     public void ClickToOpenShopPanel(){
@@ -107,4 +108,8 @@ public class ButtonManagement : MonoBehaviour
         PanelProfile.SetActive(false);
     }
     
+    public void ClickToGamePlay(){
+        sceneController.ChangeScene(1);
+    }
+
 }

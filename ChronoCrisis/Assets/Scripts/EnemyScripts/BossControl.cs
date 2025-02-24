@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using TMPro;
-using Unity.VisualScripting;
 
 public class BossControl : MonoBehaviour
 {
@@ -13,9 +11,6 @@ public class BossControl : MonoBehaviour
     public GameObject teleportEffectPrefab;
     public GameObject staff;
     public Animator animator;
-
-    private bool hasTriggeredPhaseTwoDialog = false;
-    
     
     public Transform[] aoeSpawnPoints, bulletSpawnPoints;
 
@@ -28,7 +23,10 @@ public class BossControl : MonoBehaviour
     private float phaseOneTimer;
     private List<Vector3> recentAttackPositions = new List<Vector3>();
     [SerializeField] private DialogueUI dialogueUI;
+    //public IInteractable Interactable {get; set;}
     [SerializeField] private DialogueObject bossPhase2Dialogue;
+    public LayerMask playerLayer;
+    private bool hasTriggeredPhaseTwoDialog = false;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -37,6 +35,7 @@ public class BossControl : MonoBehaviour
         phaseOneTimer = phaseOneDuration;
         bossCollider.enabled = false;
         StartCoroutine(PhaseOneAttackPattern());
+
     }
 
     void Update()
@@ -59,10 +58,10 @@ public class BossControl : MonoBehaviour
             {
                 isPhaseOne = false;
                 StopAllCoroutines();
-                if(!hasTriggeredPhaseTwoDialog){
+                if(!hasTriggeredPhaseTwoDialog)
+                {
                     TriggerPhaseTwoDialog();
                 }
-                
             }
         }
         else
@@ -99,19 +98,18 @@ public class BossControl : MonoBehaviour
         
     }
 
-void TriggerPhaseTwoDialog()
-{
-    if (hasTriggeredPhaseTwoDialog) return; // Prevent it from triggering again
-    hasTriggeredPhaseTwoDialog = true;
-    Debug.Log("Triggering Phase Two Dialogue");
-    dialogueUI.ShowDialogue(bossPhase2Dialogue);
-    StartCoroutine(WaitForDialogue());
-}
+    void TriggerPhaseTwoDialog()
+    {
+        if (hasTriggeredPhaseTwoDialog) return; // Prevent it from triggering again
+        hasTriggeredPhaseTwoDialog = true;
+        Debug.Log("Triggering Phase Two Dialogue");
+        dialogueUI.ShowDialogue(bossPhase2Dialogue);
+        StartCoroutine(WaitForDialogue());
+    }
 
     IEnumerator WaitForDialogue()
     {
         yield return new WaitUntil(() => !dialogueUI.IsOpen);
-        Debug.Log("Dialogue closed, entering Phase Two");
         EnterPhaseTwo();
     }
 
@@ -162,37 +160,61 @@ void TriggerPhaseTwoDialog()
         float speed = Random.value > 0.5f ? spearSpeedSlow : spearSpeedFast;
         spear.GetComponent<Rigidbody2D>().velocity = direction * speed;
 
+        // Assign damage to the BossProjectile script
+        BossProjectile projectile = spear.GetComponent<BossProjectile>();
+        if (projectile != null)
+        {
+            projectile.SetDamage(20f); // Damage assigned from BossControl
+        }
+
+        
+
         recentAttackPositions.Add(spear.transform.position);
         yield return new WaitForSeconds(1f);
     }
 
     IEnumerator MeteorFall()
+{
+    // Start casting animation
+    Animator staffAnimator = staff.GetComponent<Animator>();
+    if (staffAnimator != null) staffAnimator.SetTrigger("Casting");
+
+    yield return new WaitForSeconds(0.5f);
+
+    int meteorCount = 5;
+    float spawnInterval = 0.5f;
+
+    for (int i = 0; i < meteorCount; i++)
     {
-        Animator staffAnimator = staff.GetComponent<Animator>();
-        if (staffAnimator != null) staffAnimator.SetTrigger("Casting");
-
-        yield return new WaitForSeconds(0.5f);
-
-        int meteorCount = 5;
-        float spawnInterval = 0.5f;
-
-        for (int i = 0; i < meteorCount; i++)
+        if (player == null)
         {
-            Animator bulletAnimator = aoePrefab.GetComponent<Animator>();
-            if(bulletAnimator != null) bulletAnimator.SetTrigger("Bullet");
-            Vector2 targetPosition = player.position;
-            GameObject warning = Instantiate(aoeIndicatorPrefab, targetPosition, Quaternion.identity);
-            yield return new WaitForSeconds(1f);
-
-            GameObject meteor = Instantiate(aoePrefab, new Vector2(targetPosition.x, targetPosition.y + 100f), Quaternion.Euler(0, 0, 90));
-
-            StartCoroutine(MoveMeteor(meteor, meteor.transform.position, targetPosition, 0.35f));
-
-            Destroy(warning);
-            
-            yield return new WaitForSeconds(spawnInterval);
+            Debug.LogError("Player reference is missing in MeteorFall!");
+            yield break;
         }
+
+        Vector2 targetPosition = player.position;
+
+        // Spawn warning indicator
+        GameObject warning = Instantiate(aoeIndicatorPrefab, targetPosition, Quaternion.identity);
+        yield return new WaitForSeconds(1f); // Wait before meteor spawns
+
+        // Spawn meteor
+        GameObject meteor = Instantiate(aoePrefab, new Vector2(targetPosition.x, targetPosition.y + 100f), Quaternion.Euler(0, 0, 90));
+
+        // Play meteor animation
+        Animator bulletAnimator = meteor.GetComponent<Animator>();
+        if (bulletAnimator != null) bulletAnimator.SetTrigger("Bullet");
+
+        // Move the meteor
+        StartCoroutine(MoveMeteor(meteor, meteor.transform.position, targetPosition, 0.35f));
+
+        // Destroy warning effect
+        Destroy(warning, 0.5f);
+
+        yield return new WaitForSeconds(spawnInterval);
     }
+}
+
 
     IEnumerator MoveMeteor(GameObject meteor, Vector2 start, Vector2 target, float duration)
     {
@@ -213,6 +235,15 @@ void TriggerPhaseTwoDialog()
         if (meteor != null) 
         {
             meteor.transform.position = target;
+
+            Collider2D playerCollider = Physics2D.OverlapCircle(target, 1.5f, LayerMask.GetMask("Player"));
+            if (playerCollider != null)
+            {
+                ApplyDamageToPlayer(30f);
+                
+            }
+            Destroy(meteor);
+            
         }
     }
 
@@ -228,6 +259,14 @@ void TriggerPhaseTwoDialog()
             Vector3 spawnPosition = playerPosition + Quaternion.Euler(0, 0, angle) * Vector3.right * 2f;
             GameObject bullet = Instantiate(darkCageBulletPrefab, spawnPosition, Quaternion.identity);
             recentAttackPositions.Add(spawnPosition);
+
+            // Assign damage to projectile
+            BossProjectile projectile = bullet.GetComponent<BossProjectile>();
+            if (projectile != null)
+            {
+                projectile.SetDamage(10f);
+            }
+
             StartCoroutine(DelayedBulletMove(bullet, playerPosition));
         }
         yield return new WaitForSeconds(1f);
@@ -240,9 +279,14 @@ void TriggerPhaseTwoDialog()
         {
             Vector2 direction = (targetPosition - bullet.transform.position).normalized;
             bullet.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
+            
+            BossProjectile projectile = bullet.GetComponent<BossProjectile>();
+                if (projectile != null)
+                {
+                    projectile.SetDamage(10f);
+                }
         }
     }
-
     IEnumerator MissileLaunch()
     {
         Animator staffAnimator = staff.GetComponent<Animator>();
@@ -262,7 +306,7 @@ void TriggerPhaseTwoDialog()
 
                 // Rotate missile to face movement direction
                 float missileAngle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-                missile.transform.rotation = Quaternion.Euler(0, 0, missileAngle+180);
+                missile.transform.rotation = Quaternion.Euler(0, 0, missileAngle + 180);
 
                 // Play animation on missile itself
                 Animator missileAnimator = missile.GetComponent<Animator>();
@@ -271,10 +315,16 @@ void TriggerPhaseTwoDialog()
                 // Move missile in the correct direction
                 missile.GetComponent<Rigidbody2D>().velocity = direction * bulletSpeed;
 
+                // Assign damage
+                BossProjectile projectile = missile.GetComponent<BossProjectile>();
+                if (projectile != null)
+                {
+                    projectile.SetDamage(10f);
+                }
+
                 recentAttackPositions.Add(missile.transform.position);
                 angleOffset += Random.Range(10f, 15f);
             }
-
             yield return new WaitForSeconds(0.15f);
         }
     }
@@ -321,6 +371,7 @@ void TriggerPhaseTwoDialog()
         if (Vector2.Distance(transform.position, player.position) <= meleeRange)
         {
             Instantiate(meleePrefab, player.position, Quaternion.identity);
+            ApplyDamageToPlayer(10f);
         }
 
         yield return new WaitForSeconds(1f);
@@ -367,4 +418,13 @@ void TriggerPhaseTwoDialog()
         animator.SetBool("IsIdle", true);
         StartCoroutine(PhaseTwoAttackPattern());
     }
+    void ApplyDamageToPlayer(float damage)
+    {
+        PlayerController playerScript = player.GetComponent<PlayerController>();
+        if (playerScript != null)
+        {
+            playerScript.recievedDamage(30f);
+            Debug.Log("Player received " + damage + " damage!");
+        }
+    }
 }

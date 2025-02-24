@@ -94,21 +94,37 @@ public class GameManager : MonoBehaviour
 
     public void ObjectiveToComplete()
     {
-        Debug.Log("Try to change world");
-        if (playerController.enemyKilled >= 69 && worldLevel == 1)
-        {
-            isChangeWorld = true;
-            GateWayBorder.gameObject.SetActive(false);
-            worldLevel++;
-            
-        }
-        else if (playerController.hasKey && worldLevel > 1)
-        {
-            isChangeWorld = true;
-            GateWayBorder.gameObject.SetActive(false);
-            worldLevel++;
-            ChangeWorld();
-        }
+        if (worldLevel == 1 && playerController.enemyKilled >= 69) 
+    {
+        // Move from World 1 to World 2
+        Debug.Log("Moving from World 1 to World 2...");
+        isChangeWorld = true;
+        GateWayBorder.gameObject.SetActive(false);
+        worldLevel = 2;
+        ChangeWorld();
+    }
+    else if (worldLevel == 2 && playerController.hasKey == true)
+    {
+        // Move from World 2 to World 3
+        Debug.Log("Moving from World 2 to World 3...");
+        isChangeWorld = true;
+        GateWayBorder.gameObject.SetActive(false);
+        worldLevel = 3;
+        ChangeWorld();
+    }
+    else if (worldLevel == 3 && playerController.hasKey == true)
+    {
+        // Move from World 3 to World 4
+        Debug.Log("Moving from World 3 to World 4...");
+        isChangeWorld = true;
+        GateWayBorder.gameObject.SetActive(false);
+        worldLevel = 4;
+        ChangeWorld();
+    }
+    else
+    {
+        Debug.Log("Conditions not met yet.");
+    }
     }
 
     public void ChangeWorld()

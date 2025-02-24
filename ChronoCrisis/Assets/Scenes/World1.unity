@@ -9302,7 +9302,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: -9095717837082945937, guid: 207ee8102dd4143d288186ef0be518ee, type: 3}
+  m_Sprite: {fileID: 21300000, guid: db84b7d797035d940a8328bdb98c5327, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -9323,7 +9323,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: -48.07, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1705290865}
@@ -9454,7 +9454,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 2}
+    oldSize: {x: 6.4, y: 6.4}
     newSize: {x: 1, y: 2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -10930,13 +10930,25 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1297080766}
-        m_TargetAssemblyTypeName: 
-        m_MethodName: 
+      - m_Target: {fileID: 1297080767}
+        m_TargetAssemblyTypeName: MoneyAdd, Assembly-CSharp
+        m_MethodName: BuyFireballPanel
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: 
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 850269355}
+        m_TargetAssemblyTypeName: ShopSkillScript, Assembly-CSharp
+        m_MethodName: PickupItem
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
           m_StringArgument: 
@@ -37252,6 +37264,7 @@ GameObject:
   - component: {fileID: 1035506360}
   - component: {fileID: 1035506359}
   - component: {fileID: 1035506358}
+  - component: {fileID: 1035506363}
   m_Layer: 7
   m_Name: NPC
   m_TagString: Player
@@ -37412,8 +37425,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 535ce1e6912b0824eb2987435e9fe02b, type: 3}
-  m_Color: {r: 0.10943389, g: 0.036959738, b: 0.036959738, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 0be87e13578e2ae459766b150f0bffb4, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -37440,6 +37453,27 @@ Transform:
   - {fileID: 1312079451}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1035506363
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1035506357}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bbfc4854e09a9f841b10dfee6befb335, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1036532186
 GameObject:
   m_ObjectHideFlags: 0
@@ -50640,6 +50674,7 @@ GameObject:
   - component: {fileID: 1400539956}
   - component: {fileID: 1400539955}
   - component: {fileID: 1400539954}
+  - component: {fileID: 1400539959}
   m_Layer: 7
   m_Name: NPC Setelah Shop
   m_TagString: Player
@@ -50764,8 +50799,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 3
-  m_Sprite: {fileID: 21300000, guid: 535ce1e6912b0824eb2987435e9fe02b, type: 3}
-  m_Color: {r: 0.10943389, g: 0.036959738, b: 0.036959738, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 0be87e13578e2ae459766b150f0bffb4, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -50792,6 +50827,27 @@ Transform:
   - {fileID: 207634519}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!95 &1400539959
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1400539953}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bbfc4854e09a9f841b10dfee6befb335, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1400557809
 GameObject:
   m_ObjectHideFlags: 0
@@ -52538,6 +52594,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyPrefab:
   - {fileID: 1498908332320200582, guid: 0662513616b261c42a4922bbf3f9dca3, type: 3}
+  - {fileID: 1498908332320200582, guid: 32c1d288f8ddbdf458db47423cee804c, type: 3}
   powerUpPrefab:
   - {fileID: 3197164860341917430, guid: 4e9fc442a8cecd54fb04df527eb25c2c, type: 3}
   - {fileID: 6181829171672651617, guid: 3d4053990a34b314ab82f9435becfdc5, type: 3}
