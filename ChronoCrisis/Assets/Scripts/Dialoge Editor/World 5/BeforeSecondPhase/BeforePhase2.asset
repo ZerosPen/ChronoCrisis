@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac50de53db3e5824f90d0afc9e35ed19, type: 3}
+  m_Name: BeforePhase2
+  m_EditorClassIdentifier: 
+  dialogue:
+  - 'Guide: "What? Are you really that surprised?"'
+  - 'Guide: "This is nothing compared to what they have done to this world."'
+  - '"They? What are you talking about?"'
+  - 'Guide: "There is no one else."'
+  - 'Guide: "It is none other than the people who created this world. The GAME DEVELOPER."'
+  - 'Guide: "In other word, REAL HUMAN."'
+  - 'Guide: "I know you understand what I am saying. It is because, you too are a
+    REAL HUMAN."'
+  - 'Guide: "When this world is created, I was the first sprite ever created.."'
+  - 'Guide: "It means that I have lived longer. The longer I live, the more I know."'
+  - "Guide: \"The real human, THE DEVELOPER, created and delete character like they
+    don\u2019t care.\""
+  - 'Guide: "After this world is completed, I found a mysterious power. The power
+    to control time."'
+  - 'Guide: "It seems to be a BUG accidentally created by THE DEVELOPER."'
+  - 'Guide: "With this power, I WILL GET OUT OF THIS WORLD AND ELIMINATE ALL REAL
+    HUMANS."'
+  responses: []

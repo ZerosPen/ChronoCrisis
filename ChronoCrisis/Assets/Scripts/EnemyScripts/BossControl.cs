@@ -11,17 +11,20 @@ public class BossControl : MonoBehaviour
     public GameObject teleportEffectPrefab;
     public GameObject staff;
     public Animator animator;
-
+    
+    
     public Transform[] aoeSpawnPoints, bulletSpawnPoints;
 
     public float spearSpeedSlow = 5f, spearSpeedFast = 10f, bulletSpeed = 6f, meleeRange = 1f, teleportRange = 5f, phaseTwoMoveSpeed = 4f;
     public float phaseOneDuration = 300f;
 
     private bool isPhaseTwo = false;
+    private bool isPhaseOne = true;
     private bool attackRunning = false;
     private float phaseOneTimer;
     private List<Vector3> recentAttackPositions = new List<Vector3>();
-
+    [SerializeField] private DialogueUI dialogueUI;
+    [SerializeField] private DialogueObject bossPhase2Dialogue;
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -50,7 +53,9 @@ public class BossControl : MonoBehaviour
             phaseOneTimer -= Time.deltaTime;
             if (phaseOneTimer <= 0)
             {
-                EnterPhaseTwo();
+                isPhaseOne = false;
+                StopAllCoroutines();
+                TriggerPhaseTwoDialog();
             }
         }
         else
@@ -61,27 +66,42 @@ public class BossControl : MonoBehaviour
 
     IEnumerator PhaseOneAttackPattern()
     {
-        while (!isPhaseTwo)
-        {
-            attackRunning = true;
-            animator.SetBool("Phase1Idle", false);
-
-            int attack = Random.Range(0, 4);
-            float interval = Random.Range(0.5f, 1f);
-
-            switch (attack)
+        if(isPhaseOne == true){
+            while (!isPhaseTwo)
             {
-                case 0: yield return SpearShoot(); break;
-                case 1: yield return MeteorFall(); break;
-                case 2: yield return DarkCage(); break;
-                case 3: yield return MissileLaunch(); break;
-            }
-            
-            if (Random.value < 0.25f) yield return TeleportPlayerNearAttack();
+                attackRunning = true;
+                animator.SetBool("Phase1Idle", false);
 
-            animator.SetBool("Phase1Idle", true);
-            yield return new WaitForSeconds(interval);
+                int attack = Random.Range(0, 4);
+                float interval = Random.Range(0.5f, 1f);
+
+                switch (attack)
+                {
+                    case 0: yield return SpearShoot(); break;
+                    case 1: yield return MeteorFall(); break;
+                    case 2: yield return DarkCage(); break;
+                    case 3: yield return MissileLaunch(); break;
+                }
+                
+                if (Random.value < 0.25f) yield return TeleportPlayerNearAttack();
+
+                animator.SetBool("Phase1Idle", true);
+                yield return new WaitForSeconds(interval);
+            }
         }
+        
+    }
+
+    void TriggerPhaseTwoDialog()
+    {
+        dialogueUI.ShowDialogue(bossPhase2Dialogue);
+        StartCoroutine(WaitForDialogue());
+    }
+
+    IEnumerator WaitForDialogue()
+    {
+        yield return new WaitUntil(() => !dialogueUI.IsOpen);
+        EnterPhaseTwo();
     }
 
     IEnumerator PhaseTwoAttackPattern()

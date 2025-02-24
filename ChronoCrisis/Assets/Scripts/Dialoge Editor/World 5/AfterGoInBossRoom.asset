@@ -26,6 +26,6 @@ MonoBehaviour:
   - 'Guide: "What else? Will you give it to me?"'
   responses:
   - responseText: Yes
-    dialogueObject: {fileID: 0}
+    dialogueObject: {fileID: 11400000, guid: 854b582c3cb0f2644906ee5a3c8d8ecd, type: 2}
   - responseText: No
-    dialogueObject: {fileID: 0}
+    dialogueObject: {fileID: 11400000, guid: 955c2d11015523c4a98a7b1d7a86ff5b, type: 2}
