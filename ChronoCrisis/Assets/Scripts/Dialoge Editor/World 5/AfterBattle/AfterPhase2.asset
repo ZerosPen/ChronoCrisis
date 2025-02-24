@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac50de53db3e5824f90d0afc9e35ed19, type: 3}
+  m_Name: AfterPhase2
+  m_EditorClassIdentifier: 
+  dialogue:
+  - 'Guide : "How is this possible?! I am more used to This world. I have been here
+    from the beginning."'
+  - 'Guide : "You just came here. You are not supposed to have this much power."'
+  - 'Guide: "HOW CAN YOU DEFEAT ME WHO IS ABLE TO CONTROL THE FLOW OF TIME?"'
+  responses:
+  - responseText: '*KILL*'
+    dialogueObject: {fileID: 11400000, guid: c72cfe663558cf64b995c8715ef382a7, type: 2}

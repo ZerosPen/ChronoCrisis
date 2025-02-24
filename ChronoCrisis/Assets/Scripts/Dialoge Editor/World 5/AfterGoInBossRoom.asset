@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac50de53db3e5824f90d0afc9e35ed19, type: 3}
+  m_Name: AfterGoInBossRoom
+  m_EditorClassIdentifier: 
+  dialogue:
+  - 'Guide: "Finally you are here."'
+  - What are you doing here? Where is the entity?
+  - 'Guide: "I am waiting for you. Have you not realized yet? Are you really this
+    dense?"'
+  - "Guide: \"After all, besides you, I\u2019m the only one who can survive the memory
+    erasing effects.\""
+  - You too? But you said you were outside of the range.
+  - "Guide : \"You are really dumb, aren\u2019t you?\""
+  - 'Guide : "But first, I must thank you for bringing something important for me."'
+  - What? Did you mean the watch and staff?
+  - 'Guide: "What else? Will you give it to me?"'
+  responses:
+  - responseText: Yes
+    dialogueObject: {fileID: 0}
+  - responseText: No
+    dialogueObject: {fileID: 0}
