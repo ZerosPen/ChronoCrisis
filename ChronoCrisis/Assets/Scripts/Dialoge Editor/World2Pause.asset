@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac50de53db3e5824f90d0afc9e35ed19, type: 3}
+  m_Name: World2Pause
+  m_EditorClassIdentifier: 
+  dialogue:
+  - "In that case, let\u2019s hurry -GAME PAUSED- over there and stop it\u2026"
+  - "Guide: \"Sorry, I accidentally pressed the \u201CPAUSE\u201D button.\""
+  - "\u201CPAUSE\u201D? What\u2019s that?"
+  - 'Guide: "Forget it."'
+  responses: []

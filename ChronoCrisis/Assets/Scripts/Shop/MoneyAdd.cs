@@ -42,6 +42,10 @@ public class MoneyAdd : MonoBehaviour
     public void TyphoonGoldPanel(){
         SaveManager.instance.money -= 30;
     }
+    public GameObject DialogWorld2;
+    public void DialogWorld2Shop(){
+        SaveManager.instance.money -= 100;
+    }
 
 
 
@@ -50,7 +54,7 @@ public class MoneyAdd : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.F))
         {
-            SaveManager.instance.money -= 100;
+            SaveManager.instance.money += 100;
             SaveManager.instance.Save();
         }
             
