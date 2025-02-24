@@ -37147,29 +37147,28 @@ MonoBehaviour:
   - {fileID: 1769822576016841528, guid: e07c9d50d2e0293448c3f5ee113c5dba, type: 3}
   - {fileID: 6235111180367975773, guid: c5a876cb9a8dd4e4cb191486447e368e, type: 3}
   powerUpSpawn:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1131732474}
+  - {fileID: 650006308}
+  - {fileID: 1798622658}
+  - {fileID: 1430580823}
+  - {fileID: 2145866926}
+  - {fileID: 620756800}
+  - {fileID: 1613106}
+  - {fileID: 884135813}
+  - {fileID: 552150740}
+  - {fileID: 1536299197}
   spawnPoint:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1353386363193556988}
+  - {fileID: 385024526}
+  - {fileID: 1600508964}
+  - {fileID: 659387112}
+  - {fileID: 230123092}
+  - {fileID: 1396007174}
+  - {fileID: 607799914}
+  - {fileID: 1407878486}
+  - {fileID: 1415876670}
+  - {fileID: 1984456584}
+  - {fileID: 528356614}
 --- !u!4 &547388486
 Transform:
   m_ObjectHideFlags: 0
@@ -62898,7 +62897,7 @@ MonoBehaviour:
   About: {fileID: 0}
   Exit: {fileID: 0}
   PausePanel: {fileID: 0}
-  PanelProfile: {fileID: 0}
+  PanelProfile: {fileID: 198271453}
 --- !u!4 &914426771
 Transform:
   m_ObjectHideFlags: 0
@@ -67796,10 +67795,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bm: {fileID: 0}
-  hpMax: {fileID: 0}
-  hpCurr: {fileID: 0}
-  manaMax: {fileID: 0}
-  manaCurr: {fileID: 0}
+  hpMax: {fileID: 1776083293}
+  hpCurr: {fileID: 1157357314}
+  manaMax: {fileID: 581439313}
+  manaCurr: {fileID: 1770240566}
   LevelValue: {fileID: 0}
   HitpointValue: {fileID: 0}
   ManaValue: {fileID: 0}
@@ -90036,7 +90035,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 914426770}
         m_TargetAssemblyTypeName: ButtonManagement, Assembly-CSharp
         m_MethodName: ClickCloseToProfile
         m_Mode: 1
@@ -104357,7 +104356,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 914426770}
         m_TargetAssemblyTypeName: ButtonManagement, Assembly-CSharp
         m_MethodName: ClickOpenToProfile
         m_Mode: 1
@@ -116537,7 +116536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1774431909
 RectTransform:
   m_ObjectHideFlags: 0
