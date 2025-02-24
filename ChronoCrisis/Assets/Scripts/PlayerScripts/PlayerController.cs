@@ -57,6 +57,7 @@ public class PlayerController : MonoBehaviour
     private SkillManager skillManager;
     private SaveManager saveManager;
     [SerializeField] InventoryManager inventoryManager;
+    [SerializeField] GameManager gameManager;
 
 
     [Header("KeyBlind")]
@@ -94,16 +95,20 @@ public class PlayerController : MonoBehaviour
         {
             Debug.LogError("uiManager is NULL");
         }
+        if (gameManager == null)
+        {
+            Debug.LogError("GameManger is NULL");
+        }
 
-        nextMilestone = baseMilestone;
         
+        nextMilestone = baseMilestone;
     }
 
     void Update()
     {
        SaveManager.instance.Save();
        // if (dialogueUI.IsOpen) return;
-
+        
         movement();
         attack();
         skillCastQ();
@@ -118,6 +123,8 @@ public class PlayerController : MonoBehaviour
         uiManager.UpdateHealth(currHitPoint,HitPoint);
         uiManager.UpdateMana(currManaPoint, manaPoint);
         uiManager.UpdateStatus(level, HitPoint, manaPoint, damageATK, magicPower ,DefendPoint, pointVit, pointAgi, pointInt);
+
+        gameManager.ObjectiveToComplete();
 
         SaveManager.instance.UpdatePlayerData();
         SaveManager.instance.Save();
@@ -134,7 +141,7 @@ public class PlayerController : MonoBehaviour
             Interactable?.Interact(this);
             
         }
-
+        
     }
 
     void OnCollisionEnter2D(Collision2D collision)
@@ -388,7 +395,7 @@ public class PlayerController : MonoBehaviour
     {
         currHitPoint -= damage;
         
-        if(HitPoint <= 0)
+        if(currHitPoint <= 0)
         {
             isDead = true;
             gameObject.SetActive(false);
@@ -408,6 +415,23 @@ public class PlayerController : MonoBehaviour
         currHitPoint = HitPoint;
         currManaPoint = manaPoint;
         gameObject.SetActive(true);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("GateWay"))
+        {
+            Debug.Log("You enter gateway");
+            if(gameManager.worldLevel == 1) 
+            {
+                gameManager.ChangeWorld();
+            }
+            else
+            { 
+                hasKey = true;
+                gameManager.ChangeWorld();
+            }
+        }
     }
 
     private void OnDrawGizmosSelected()

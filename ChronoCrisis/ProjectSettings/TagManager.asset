@@ -9,6 +9,7 @@ TagManager:
   - EnemyMagic
   - Trap
   - Wall
+  - GateWay
   layers:
   - Default
   - TransparentFX

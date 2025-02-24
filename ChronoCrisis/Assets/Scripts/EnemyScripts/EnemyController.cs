@@ -27,7 +27,7 @@ public class EnemyController : MonoBehaviour
 
     [Header("conditon & requimen")]
     [SerializeField] private Transform player;
-    [SerializeField] private PlayerController playerController;
+    private PlayerController playerController;
     private Rigidbody2D rb;
     private bool isChasing = false;
     private bool isStopped = false;
@@ -54,6 +54,7 @@ public class EnemyController : MonoBehaviour
             {
                 Debug.LogError("Player GameObject not found in the scene!");
             }
+            playerController = FindObjectOfType<PlayerController>();
         }
 
         moneyAdd = FindObjectOfType<MoneyAdd>();
@@ -207,13 +208,6 @@ public class EnemyController : MonoBehaviour
         {
             EnemyDead();
         }
-
-        currentHp -= damage; // Subtract from current HP
-
-        if (currentHp <= 0)
-        {
-            EnemyDead();
-        }
     }
 
     private void EnemyDead()
@@ -234,6 +228,7 @@ public class EnemyController : MonoBehaviour
 
         Debug.Log("Enemy Dead");
 
+        playerController.enemyKilled++;
         Destroy(gameObject);
     }
 

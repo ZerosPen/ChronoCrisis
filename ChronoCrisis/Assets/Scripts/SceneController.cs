@@ -12,21 +12,21 @@ public class SceneController : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (instance != this)
         {
+            Debug.LogWarning("Duplicate SceneController destroyed.");
             Destroy(gameObject);
         }
     }
 
     public void ChangeScene(int sceneIndex)
     {
-        SaveManager.instance.Save(); // Save before scene change
-        SceneManager.LoadScene(sceneIndex);
-    }
+        if (SaveManager.instance != null)
+        {
+            SaveManager.instance.Save();
+        }
 
-    public void ChangeScene(string sceneName)
-    {
-        SaveManager.instance.Save(); // Save before scene change
-        SceneManager.LoadScene(sceneName);
+        Debug.Log("Changing scene to index: " + sceneIndex);
+        SceneManager.LoadScene(sceneIndex);
     }
 }

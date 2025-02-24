@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private bool isChangeWorld;
+    [SerializeField] private bool isChangeWorld = false;
     private bool isGameOver;
     private bool isGamePaused;
     private bool canLoop = true;
@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     public SpawnManager spawnManager; // Assign in Inspector
     private SceneController sceneController;
     public GameObject NPCLoop5;
+    public GameObject GateWayBorder;
 
     // Start is called before the first frame update
     void Start()
@@ -38,6 +39,11 @@ public class GameManager : MonoBehaviour
         }
         spawnManager.SpawnEnemies(enemyCount, loopTime, worldLevel);
         spawnManager.SpawnPowerUp();
+        sceneController = FindObjectOfType<SceneController>(); // CARI di seluruh scene!
+        if (sceneController == null)
+        {
+            Debug.LogError("SceneController not found!");
+        }
     }
 
     // Update is called once per frame
@@ -88,15 +94,19 @@ public class GameManager : MonoBehaviour
 
     public void ObjectiveToComplete()
     {
+        Debug.Log("Try to change world");
         if (playerController.enemyKilled >= 69 && worldLevel == 1)
         {
             isChangeWorld = true;
-            worldLevel = 2;
-            ChangeWorld();
+            GateWayBorder.gameObject.SetActive(false);
+            worldLevel++;
+            
         }
         else if (playerController.hasKey && worldLevel > 1)
         {
             isChangeWorld = true;
+            GateWayBorder.gameObject.SetActive(false);
+            worldLevel++;
             ChangeWorld();
         }
     }
@@ -105,9 +115,7 @@ public class GameManager : MonoBehaviour
     {
         if (isChangeWorld)
         {
-            worldLevel++; // Move to the next world
             sceneController.ChangeScene(worldLevel);
-            isChangeWorld = false;
 
             // Load the next world scene (example)
             Debug.Log("Loading World " + worldLevel);
